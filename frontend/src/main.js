@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from 'axios'
 
 Vue.config.productionTip = false
 
@@ -10,6 +11,22 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  data () {
+    return {
+      user: {
+        token: null
+      }
+    }
+  },
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+    methods: {
+      getUserByToken : function () {
+          // axios.get('')
+          //     .then(function (res) {
+          //
+          //     })
+      }
+    }
+
 })
