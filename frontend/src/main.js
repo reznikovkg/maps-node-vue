@@ -15,8 +15,9 @@ new Vue({
     return {
       domain: 'http://localhost:8888',
       user: {
-          isAuthenticated: false,
           token: null,
+
+          isAuthenticated: false,
           isActivate: false,
           isAdmin: false,
 
@@ -28,20 +29,37 @@ new Vue({
   components: { App },
   template: '<App/>',
   methods: {
-    getUserByToken : function () {
-        // axios.get('')
-        //     .then(function (res) {
-        //
-        //     })
+      authenticated : function () {
+            axios.get(this.domain + '/api/auth/connect', {
+                params: {
+                    token: this.user.token
+                }
+            })
+            .then((response) => {
+                this.$cookie.set('token', this.user.token, 3);
+                this.user.isAuthenticated = true;
+
+                this.user.isActivate = response.data.isActivate;
+                this.user.isAdmin = response.data.isAdmin;
+                this.user.username = response.data.username;
+                this.user.birthday = response.data.birthday;
+            })
     }
   },
+    mounted: function () {
+
+
+    },
     watch: {
       user: {
-          handler: () => {
-            console.log('watch user')
-        },
+          handler: function (val, oldVal) { this.authenticated() },
           deep: true
       }
+    },
+    created: function () {
+        if (this.$cookie.get('token')) {
+            this.user.token = this.$cookie.get('token');
+        }
     }
 
 })

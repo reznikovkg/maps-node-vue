@@ -3,7 +3,7 @@
             <div class="col-md-4">
                 <div class="at-box-row bg-c-brand-light">
 
-                    <form>
+                    <form @click="clearError">
                         <h4>Авторизация</h4>
                         <at-input v-model="form.username" placeholder="Имя пользователя"></at-input>
                         <at-input v-model="form.password" type="password" placeholder="Пароль"></at-input>
@@ -39,17 +39,31 @@
                     }
                 })
                     .then((response) => {
+                        this.$root.user.token = response.data.token;
+                    })
+                    .catch((error) => {
+                        this.form.error = error.response.data.error;
+                    })
+            },
+            clearError: function () {
+                this.form.error = '';
+            }
+        },
+        mounted: function () {
+            if (this.$root.user.isAuthenticated) {
+                this.$router.push('/page');
+            }
+        },
+        updated: function () {
+            console.log(this.$root.user.isAuthenticated);
 
-                        this.form.error = response.data.error;
-                            //this.$root.user.token = response.data.token;
-                    })
-                    .catch(()=>{
-                    })
+            if (this.$root.user.isAuthenticated) {
+                this.$router.push('/page');
             }
         }
     }
 </script>
 
-<style scoped>
+<style lang="less">
 
 </style>

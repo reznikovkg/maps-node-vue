@@ -6,33 +6,43 @@ var models = require('../../models');
 
 
 app.get('/login', function(req, res, next) {
+    const username = req.param('username');
+    const password = req.param('password');
 
-    console.log(req.session);
+    models.Users.findOne({ where: {
+            username: username,
+            password: password
+        } })
+        .then(user => {
+            if (user) {
+                res.send({'token' : user.token});
+            } else {
 
-    if (!req.session.token) {
-
-        const username = req.param('username');
-        const password = req.param('password');
-
-        models.Users.findOne({ where: {
-                username: username,
-                password: password
-            } })
-            .then(user => {
-                if (user) {
-                    req.session.token= user.token;
-                    res.send({'token' : user.token});
-                } else {
-
-                    res.send({'error':'Не верный пароль'});
-                }
-            });
-
-    } else {
-        res.send({'error':500});
-    }
+                res.status(500).send({'error':'Не верный пароль'});
+            }
+        });
 });
 
+
+app.get('/connect', function(req, res, next) {
+    const token = req.param('token');
+
+    models.Users.findOne({ where: {
+            token: token
+        } })
+        .then(user => {
+            if (user) {
+                res.send({
+                    'isActivate' : user.isActivate,
+                    'isAdmin' : user.isAdmin,
+                    'username' : user.username,
+                    'birthday' : user.birthday
+                });
+            } else {
+                res.status(500).send({'error':'Недействительный токен'});
+            }
+        });
+});
 
 
 module.exports = app;
