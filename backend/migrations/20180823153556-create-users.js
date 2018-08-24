@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('User', {
+    return queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,6 +17,9 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      token: {
+        type: Sequelize.STRING
+      },
       isActivate: {
         type: Sequelize.BOOLEAN
       },
@@ -25,10 +28,13 @@ module.exports = {
       },
       birthday: {
         type: Sequelize.DATEONLY
-      }
+      },
+
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE,
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('User');
+    return queryInterface.dropTable('Users');
   }
 };

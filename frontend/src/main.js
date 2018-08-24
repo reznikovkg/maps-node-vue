@@ -13,19 +13,34 @@ new Vue({
   router,
   data () {
     return {
+      domain: 'http://localhost:8888',
       user: {
-        token: null
+          isAuthenticated: false,
+          token: null,
+          isActivate: false,
+          isAdmin: false,
+
+          username: '',
+          birthday: ''
       }
     }
   },
   components: { App },
   template: '<App/>',
-    methods: {
-      getUserByToken : function () {
-          // axios.get('')
-          //     .then(function (res) {
-          //
-          //     })
+  methods: {
+    getUserByToken : function () {
+        // axios.get('')
+        //     .then(function (res) {
+        //
+        //     })
+    }
+  },
+    watch: {
+      user: {
+          handler: () => {
+            console.log('watch user')
+        },
+          deep: true
       }
     }
 

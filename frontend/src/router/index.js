@@ -5,10 +5,19 @@ import 'at-ui-style'
 
 import Router from 'vue-router'
 
+
 import Login from '../components/auth/Login'
+import Page from '../components/Page'
 
 Vue.use(Router)
 Vue.use(AtComponents)
+
+
+
+
+
+
+
 
 export default new Router({
   mode: 'history',
@@ -17,7 +26,19 @@ export default new Router({
     {
         path: '/login',
         name: 'auth-login',
-        component: Login
+        component: Login,
     },
+
+
+    {
+        path: '/page',
+        name: 'page',
+        component: Page,
+    },
+    // {
+    //     path: '/register',
+    //     name: 'auth-register',
+    //     component: Register
+    // },
   ]
 })

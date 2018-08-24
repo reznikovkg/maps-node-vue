@@ -2,14 +2,7 @@
         <div class="row at-row flex-center flex-middle">
             <div class="col-md-4">
                 <div class="at-box-row bg-c-brand-light">
-
-                    <form>
-                        <h4>Авторизация</h4>
-                        <at-input v-model="form.username" placeholder="Имя пользователя"></at-input>
-                        <at-input v-model="form.password" type="password" placeholder="Пароль"></at-input>
-                        <at-button @click="sendForm">Войти</at-button>
-                        <p>{{ form.error }}</p>
-                    </form>
+Вошли
                 </div>
             </div>
         </div>
@@ -24,9 +17,7 @@
             return {
                 form: {
                     username: '',
-                    password: '',
-
-                    error: ''
+                    password: ''
                 }
             }
         },
@@ -39,12 +30,13 @@
                     }
                 })
                     .then((response) => {
-
-                        this.form.error = response.data.error;
-                            //this.$root.user.token = response.data.token;
+                        this.$root.user.token = response.data.token;
                     })
-                    .catch(()=>{
-                    })
+            }
+        },
+        beforeMount: function () {
+            if (!this.$root.user.isAuthenticated) {
+                this.$route.torouter.push('home')
             }
         }
     }
