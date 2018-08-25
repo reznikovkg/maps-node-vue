@@ -95,7 +95,7 @@
             },
 
             'form.password':function () {
-                if (this.form.password.length >= 1) {
+                if ((this.form.password.length >= 1)  && ( /^[a-zA-Z0-9*#!+]+$/.test(this.form.password))){
                     this.valid.password = true;
                     this.status.password = 'success';
                 } else {
