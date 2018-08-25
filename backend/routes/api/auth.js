@@ -55,18 +55,35 @@ app.get('/register', function(req, res, next) {
 
 app.get('/activate', function(req, res, next) {
     const token = req.param('token');
+    const username = req.param('username');
 
-    models.Users.findOne({ where: {
-            token: token
-        } })
-        .then(user => {
-            user.update({
-                isActivate: true
-            }).then(() => {
-                res.status(200).send({'message':'Активировано'});
-            })
+    if (username) {
+        models.Users.findOne({ where: {
+                username: username
+            } })
+            .then(user => {
+                user.update({
+                    isActivate: true
+                }).then(() => {
+                    res.status(200).send({'message':'Активировано'});
+                })
 
-        });
+            });
+    }
+
+    if (token) {
+        models.Users.findOne({ where: {
+                token: token
+            } })
+            .then(user => {
+                user.update({
+                    isActivate: true
+                }).then(() => {
+                    res.status(200).send({'message':'Активировано'});
+                })
+
+            });
+    }
 });
 
 

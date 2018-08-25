@@ -4,7 +4,7 @@
         <div class="content-field">
 
             <transition appear name="animate-content" mode="out-in">
-                    <router-view></router-view>
+                <router-view></router-view>
             </transition>
         </div>
     </div>
@@ -38,8 +38,7 @@
                         this.$router.push('/login');
                     }
                 },
-                deep: true,
-                immediate: true
+                deep: true
             }
         },
     }

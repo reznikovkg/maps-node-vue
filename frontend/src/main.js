@@ -81,9 +81,7 @@ new Vue({
     },
     created: function () {
         if (this.$cookie.get('token')) {
-            console.log(11111);
             this.user.token = this.$cookie.get('token');
-            console.log(211111);
         }
     }
 
