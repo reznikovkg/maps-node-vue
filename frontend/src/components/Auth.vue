@@ -1,15 +1,15 @@
 <template>
     <div class="auth-field">
         <div class="auth">
-            <at-menu mode="horizontal" active-name="1">
+            <at-menu mode="horizontal">
                 <at-menu-item
                         :router="true"
                         :to="{name: 'auth-login'}"
-                        name="1"><i class="icon icon-log-in"></i>Авторизация</at-menu-item>
+                        ><i class="icon icon-log-in"></i>Авторизация</at-menu-item>
                 <at-menu-item
                         :router="true"
                         :to="{name: 'auth-register'}"
-                        name="2"><i class="icon icon-user-plus"></i>Регистрация</at-menu-item>
+                        ><i class="icon icon-user-plus"></i>Регистрация</at-menu-item>
             </at-menu>
 
             <transition appear name="animate-auth" mode="out-in">
@@ -23,15 +23,10 @@
     import axios from 'axios';
 
     export default {
-        name: "auth-login",
+        name: "auth",
         data () {
             return {
-                form: {
-                    username: '',
-                    password: '',
 
-                    error: ''
-                }
             }
         },
         methods: {
@@ -85,6 +80,7 @@
             background: #fff;
             box-shadow: 3px 3px 10px #343434;
             overflow: hidden;
+            border-radius: 5px;
             & form {
                 & .form-control {
                     margin-bottom: 10px;

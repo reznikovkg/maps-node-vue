@@ -30,6 +30,46 @@ app.get('/login', function(req, res, next) {
 
 });
 
+app.get('/register', function(req, res, next) {
+    const username = req.param('username');
+    const email = req.param('email');
+    const password = req.param('password');
+
+    if ((username.length > 0) && ( /^[a-zA-Z0-9]+$/.test(username)) && (password.length > 0)  && ( /^[a-zA-Z0-9*#!+]+$/.test(password)) && ( /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(email))) {
+
+        const user = models.Users.build({
+            username: username,
+            email: email,
+            password: password
+        });
+
+        user.save().then(() => {
+            res.status(200).send({'message': 'Успех'});
+        });
+    } else {
+        res.status(500).send({'error': 'Ошибка валидации'});
+    }
+
+});
+
+
+app.get('/activate', function(req, res, next) {
+    const token = req.param('token');
+
+    models.Users.findOne({ where: {
+            token: token
+        } })
+        .then(user => {
+            user.update({
+                isActivate: true
+            }).then(() => {
+                res.status(200).send({'message':'Активировано'});
+            })
+
+        });
+});
+
+
 
 app.get('/connect', function(req, res, next) {
     const token = req.param('token');

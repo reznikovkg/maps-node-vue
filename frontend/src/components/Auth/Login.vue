@@ -1,6 +1,6 @@
 <template>
     <div class="auth-login">
-        <form @click="clearError">
+        <form>
             <div class="form-control">
                 <at-input
                         v-model="form.username"
@@ -47,11 +47,14 @@
                 }
             }
         },
+        mounted: function () {
+            document.title = this.$route.meta.title;
+        },
         methods: {
             sendForm: function () {
                 if ((this.valid.username) && (this.valid.password)) {
 
-                    axios.get(this.$root.domain + '/api/Auth/login',{
+                    axios.get(this.$root.domain + '/api/auth/login',{
                         params: {
                             username: this.form.username,
                             password: this.form.password
@@ -76,12 +79,7 @@
 
                     this.$root.viewNotify('error','Ошибка', 'Поля должны быть заполнены');
                 }
-
-            },
-            clearError: function () {
-                this.form.error = '';
             }
-
         },
         watch: {
             'form.username':function () {
