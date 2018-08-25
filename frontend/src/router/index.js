@@ -31,15 +31,17 @@ export default new Router({
             {
                 path: 'login',
                 name: 'auth-login',
-                components: {
-                    default: Login,
+                component: Login,
+                meta: {
+                    title: 'Авторизация'
                 }
             },
             {
                 path: 'register',
                 name: 'auth-register',
-                components: {
-                    default: Register,
+                component: Register,
+                meta: {
+                    title: 'Регистрация'
                 }
             },
         ]
