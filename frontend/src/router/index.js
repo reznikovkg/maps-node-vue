@@ -10,17 +10,39 @@ Vue.use(Router);
 Vue.use(AtComponents);
 Vue.use(VueCookie);
 
-import Login from '../components/auth/Login'
+
+import Auth from '../components/Auth'
+import Login from '../components/Auth/Login'
+import Register from '../components/Auth/Register'
+
 import Page from '../components/Page'
 import EditProfile from '../components/Page/EditProfile'
+import EditPassword from '../components/Page/EditPassword'
 
 export default new Router({
   mode: 'history',
   routes: [
     {
-        path: '/login',
-        name: 'auth-login',
-        component: Login,
+        path: '/',
+        redirect: 'login',
+        name: 'auth',
+        component: Auth,
+        children: [
+            {
+                path: 'login',
+                name: 'auth-login',
+                components: {
+                    default: Login,
+                }
+            },
+            {
+                path: 'register',
+                name: 'auth-register',
+                components: {
+                    default: Register,
+                }
+            },
+        ]
     },
 
     {
@@ -31,22 +53,20 @@ export default new Router({
             {
                 path: 'edit',
                 name: 'edit-profile',
-                components: {
-                    default: EditProfile,
-                }
+                component: EditProfile,
             },
-            // {
-            //     path: 'edit',
-            //     name: 'edit-profile',
-            //     components: {
-            //         default: EditProfile,
-            //     }
-            // },
+            {
+                path: 'edit-password',
+                name: 'edit-password',
+                components: {
+                    default: EditPassword,
+                },
+            },
         ]
     },
     // {
     //     path: '/register',
-    //     name: 'auth-register',
+    //     name: 'Auth-register',
     //     component: Register
     // },
   ]

@@ -1,9 +1,13 @@
 <template>
     <div class="page-aside">
         <div class="aside-user">
-            <h4 class="aside-user-name">
+            <h4 class="aside-user-name" :class="{ admin: this.$root.user.isAdmin }">
                 {{ this.$root.user.username }}
             </h4>
+            <p v-if="this.$root.user.isAdmin">Администратор</p>
+            <div>
+                <at-button @click="outLogin">Выйти</at-button>
+            </div>
         </div>
 
         <div class="aside-menu">
@@ -12,13 +16,13 @@
                 <at-menu-item
                         :router="true"
                         :to="{name : 'edit-profile'}">
-                    <i class="icon icon-home"></i>Редактировать профиль
+                    <i class="icon icon-edit-1"></i>Редактировать профиль
                 </at-menu-item>
 
                 <at-menu-item
                         :router="true"
                         :to="{name : 'edit-password'}">
-                    <i class="icon icon-home"></i>Сменить пароль
+                    <i class="icon icon-edit-2"></i>Сменить пароль
                 </at-menu-item>
 
                 <!--<at-menu-item name="2"><i class="icon icon-layers"></i>Navigation Two</at-menu-item>-->
@@ -50,7 +54,12 @@
 
 <script>
     export default {
-        name: "aside"
+        name: "aside",
+        methods: {
+            outLogin: function () {
+                this.$root.userOut();
+            }
+        }
     }
 </script>
 
@@ -64,7 +73,23 @@
         background: #fff;
         box-shadow: 0px 0px 8px #181150;
         & .aside-user {
-
+            & .aside-user-name {
+                text-align: center;
+                padding: 10px;
+                &.admin {
+                    color: #89136d;
+                    font-size: 25px;
+                }
+            }
+            & p {
+                text-align: center;
+            }
+            & div {
+                text-align: center;
+                & .aside-user-outlogin {
+                    color: #888;
+                }
+            }
         }
     }
 </style>

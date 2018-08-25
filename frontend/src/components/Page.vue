@@ -3,9 +3,9 @@
         <page-aside></page-aside>
         <div class="content-field">
 
-            <div class="content">
-                <router-view></router-view>
-            </div>
+            <transition appear name="animate-content" mode="out-in">
+                    <router-view></router-view>
+            </transition>
         </div>
     </div>
 </template>
@@ -31,15 +31,31 @@
         methods: {
 
         },
-        beforeMount: function () {
-            if (!this.$root.user.isAuthenticated) {
-
+        watch: {
+            '$root.user': {
+                handler: function (val, oldVal) {
+                    if (!this.$root.user.isAuthenticated) {
+                        this.$router.push('/login');
+                    }
+                },
+                deep: true,
+                immediate: true
             }
-        }
+        },
     }
 </script>
 
 <style lang="less">
+
+    .animate-content-enter-active, .animate-content-leave-active {
+        transition: .3s ease-in-out;
+    }
+    .animate-content-enter, .animate-content-leave-to
+        /* .component-fade-leave-active до версии 2.1.8 */ {
+        opacity: 0;
+        transform: translateX(500px);
+    }
+
     .page {
         position: absolute;
         left: 0;

@@ -10,15 +10,17 @@ app.get('/login', function(req, res, next) {
     const password = req.param('password');
 
     models.Users.findOne({ where: {
-            username: username,
-            password: password
+            username: username
         } })
         .then(user => {
             if (user) {
-                res.send({'token' : user.token});
+                if (user.password == password) {
+                    res.send({'token' : user.token});
+                } else {
+                    res.status(404).send({'error':'Неверный пароль'});
+                }
             } else {
-
-                res.status(500).send({'error':'Не верный пароль'});
+                res.status(404).send({'error':'Пользователь с именем '+ username +' не найден'});
             }
         });
 });
