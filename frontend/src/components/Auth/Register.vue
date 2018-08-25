@@ -1,6 +1,6 @@
 <template>
     <div class="auth-register">
-        <form>
+        <form @keyup.enter="sendForm">
             <div class="form-control">
                 <at-input
                         v-model="form.username"
