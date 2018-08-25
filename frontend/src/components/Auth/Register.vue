@@ -77,39 +77,4 @@
 </script>
 
 <style lang="less">
-    .auth-field {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(#009eda,#a100f3);
-
-        display: flex;
-
-        justify-content: center;
-        align-items: center;
-
-        & .auth {
-            width: 100%;
-            max-width: 400px;
-            padding: 10px;
-            margin: 10px;
-            background: #fff;
-            box-shadow: 3px 3px 10px #343434;
-            & form {
-                & .form-control {
-                    margin-bottom: 10px;
-                    &:last-child {
-                        margin-bottom: 0;
-                    }
-
-
-                    & h4 {
-                        text-align: center;
-                    }
-                }
-            }
-        }
-    }
 </style>
