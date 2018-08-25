@@ -55,7 +55,7 @@ new Vue({
                 this.user.username = response.data.username;
                 this.user.birthday = response.data.birthday;
 
-                this.$root.viewNotify('success','Успешно', 'Вы успешно зашли под именем - ' + this.user.username);
+                this.$root.viewNotify('success','Успешно', 'Вы успешно вошли под именем - ' + this.user.username);
             })
                 .catch((error) => {
                     this.$cookie.delete('token');

@@ -9,20 +9,25 @@ app.get('/login', function(req, res, next) {
     const username = req.param('username');
     const password = req.param('password');
 
-    models.Users.findOne({ where: {
-            username: username
-        } })
-        .then(user => {
-            if (user) {
-                if (user.password == password) {
-                    res.send({'token' : user.token});
-                } else {
-                    res.status(404).send({'error':'Неверный пароль'});
-                }
-            } else {
-                res.status(404).send({'error':'Пользователь с именем '+ username +' не найден'});
-            }
-        });
+        if ((username.length > 0) && ( /^[a-zA-Z0-9]+$/.test(username)) && (password.length > 0)  && ( /^[a-zA-Z0-9*#!+]+$/.test(password))) {
+            models.Users.findOne({ where: {
+                    username: username
+                } })
+                .then(user => {
+                    if (user) {
+                        if (user.password == password) {
+                            res.send({'token' : user.token});
+                        } else {
+                            res.status(404).send({'error':'Неверный пароль'});
+                        }
+                    } else {
+                        res.status(404).send({'error':'Пользователь с именем '+ username +' не найден'});
+                    }
+                });
+        } else {
+            res.status(500).send({'error': 'Ошибка валидации'});
+        }
+
 });
 
 

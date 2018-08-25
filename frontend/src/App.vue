@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view/>
+    <transition appear name="animate-app" mode="out-in">
+      <router-view/>
+    </transition>
   </div>
 </template>
 
@@ -12,6 +14,14 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less">
+  .animate-app-enter-active, .animate-app-leave-active {
+    transition: .3s ease-in-out;
+  }
+  .animate-app-enter {
+    opacity: 0;
+  }
+  .animate-app-leave-to {
+    opacity: 0;
+  }
 </style>

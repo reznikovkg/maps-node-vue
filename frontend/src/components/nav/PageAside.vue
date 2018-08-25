@@ -4,9 +4,9 @@
             <h4 class="aside-user-name" :class="{ admin: this.$root.user.isAdmin }">
                 {{ this.$root.user.username }}
             </h4>
-            <p v-if="this.$root.user.isAdmin">Администратор</p>
+            <p v-if="this.$root.user.isAdmin" class="aside-user-admin"><at-badge value="ADMIN" status="info"></at-badge></p>
             <div>
-                <at-button @click="outLogin">Выйти</at-button>
+                <at-button @click="outLogin" size="small" icon="icon-user-plus">Выйти</at-button>
             </div>
         </div>
 
@@ -80,6 +80,9 @@
                     color: #89136d;
                     font-size: 25px;
                 }
+            }
+            & .aside-user-admin {
+                margin-bottom: 10px;
             }
             & p {
                 text-align: center;
