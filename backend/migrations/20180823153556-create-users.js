@@ -17,6 +17,9 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      token: {
+        type: Sequelize.STRING
+      },
       isActivate: {
         type: Sequelize.BOOLEAN
       },
@@ -25,7 +28,10 @@ module.exports = {
       },
       birthday: {
         type: Sequelize.DATEONLY
-      }
+      },
+
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE,
     });
   },
   down: (queryInterface, Sequelize) => {
