@@ -54,8 +54,6 @@ new Vue({
                 this.user.isAdmin = response.data.isAdmin;
                 this.user.username = response.data.username;
                 this.user.birthday = response.data.birthday;
-
-                this.$root.viewNotify('success','Успешно', 'Вы успешно вошли под именем - ' + this.user.username);
             })
                 .catch((error) => {
                     this.$cookie.delete('token');
@@ -75,7 +73,10 @@ new Vue({
     },
     watch: {
       'user.token' : {
-          handler: function (val, oldVal) { this.authenticated() },
+          handler: function (val, oldVal) {
+              this.authenticated();
+              this.$root.viewNotify('success','Успешно', 'Вы успешно вошли под именем - ' + this.user.username);
+          },
           deep: true
       }
     },

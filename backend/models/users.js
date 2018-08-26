@@ -1,10 +1,16 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('Users', {
-    username: DataTypes.STRING,
+    username: {
+        unique: true,
+        type:DataTypes.STRING,
+    },
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    token: DataTypes.STRING,
+    token: {
+        unique: true,
+        type:DataTypes.STRING,
+    },
 
     isActivate: DataTypes.BOOLEAN,
     isAdmin:  DataTypes.BOOLEAN,

@@ -6,26 +6,29 @@ var models = require('../../models');
 
 
 
-app.get('/get/users', function(req, res, next) {
+app.get('/edit', function(req, res, next) {
     const token = req.param('token');
+    const username = req.param('username');
+    const birthday = req.param('birthday');
 
     models.Users.findOne({ where: {
-            token: token,
-            isAdmin: true
+            token: token
         } })
         .then(user => {
-            models.Users.findAll()
-                .then(users => {
-                    res.status(200).send({'users':users});
-                })
-                .catch(()=>{
-                    res.status(404).send({'message':'Не найдено'});
-                });
+
+            user.update({
+                username: username,
+                birthday: birthday
+            }).then(() => {
+                res.status(200).send({'message':'Обновлено'});
+            })
+            .catch(()=>{
+                res.status(404).send({'message':'Нет прав'});
+            });
         })
         .catch(()=>{
             res.status(404).send({'message':'Нет прав'});
         });
-
 });
 
 

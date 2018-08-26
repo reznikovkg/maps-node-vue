@@ -61,7 +61,7 @@
                 text-align: center;
                 padding: 10px;
                 &.admin {
-                    color: #89136d;
+                    color: #6190e8;
                     font-size: 25px;
                 }
             }

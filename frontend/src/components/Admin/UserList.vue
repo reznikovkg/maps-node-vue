@@ -22,6 +22,11 @@
             return {
                 tableStruct: [
                     {
+                        title: 'id',
+                        key: 'id',
+                        sortType: 'normal'
+                    },
+                    {
                         title: 'Имя пользователя',
                         key: 'username',
                         sortType: 'normal'
@@ -32,6 +37,8 @@
                     },
                     {
                         title: 'Активен',
+                        key: 'isActive',
+                        sortType: 'normal',
                         render: (h, params) => {
                             return h('div', [
                                 h('at-switch', {
@@ -41,19 +48,24 @@
                                     },
                                     on: {
                                         change: () => {
-                                            axios.get(this.$root.domain + '/api/auth/activate',{
+                                            axios.get(this.$root.domain + '/api/admin/activate',{
                                                 params: {
+                                                    token: this.$root.user.token,
                                                     username: params.item.username
                                                 }
+                                            }).then((response)=>{
+                                                this.$root.viewNotify('success','Успешно', 'Статус ' + params.item.username + ' изменен.');
                                             });
                                         }
                                     }
-                                }, 'View Address')
+                                })
                             ])
                         }
                     },
                     {
                         title: 'Админ',
+                        key: 'isAdmin',
+                        sortType: 'normal',
                         render: (h, params) => {
                             return h('div', [
                                 h('at-switch', {
@@ -63,10 +75,35 @@
                                     },
                                     on: {
                                         change: () => {
-                                            this.$Message(params.item.username)
+                                            axios.get(this.$root.domain + '/api/admin/activateAdmin',{
+                                                params: {
+                                                    token: this.$root.user.token,
+                                                    username: params.item.username
+                                                }
+                                            }).then((response)=>{
+                                                this.$root.viewNotify('success','Успешно', 'Права ' + params.item.username + ' изменены.');
+                                            });
                                         }
                                     }
-                                }, 'View Address')
+                                })
+                            ])
+                        }
+                    },
+                    {
+                        title: 'Настройки',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('at-button', {
+                                    props: {
+                                        size: 'small',
+                                        value: params.item.isAdmin
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.$router.push({ name: 'user-edit', params: { userId: params.item.id }})
+                                        }
+                                    }
+                                }, 'Редактировать')
                             ])
                         }
                     }
@@ -89,6 +126,16 @@
                 .catch((error) => {
                     this.$root.viewNotify('error','Ошибка', error.response.data.error);
                 })
+        },
+        methods: {
+            // this.$Modal.prompt({
+            //     title: 'Tips',
+            //     content: 'Please input your email:'
+            //     }).then((data) => {
+            //         this.$Message(`Click 'Confirm' Button, input value is ${data.value}`)
+            //     }).catch(() => {
+            //         this.$Message('Click \'Cancel\' Button')
+            //     })
         }
     }
 </script>

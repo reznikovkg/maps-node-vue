@@ -21,6 +21,7 @@ import EditPassword from '../components/Page/EditPassword'
 
 
 import UserList from '../components/Admin/UserList'
+import UserEdit from '../components/Admin/UserEdit'
 
 export default new Router({
   mode: 'history',
@@ -74,6 +75,11 @@ export default new Router({
                 path: 'user-list',
                 name: 'user-list',
                 component: UserList,
+            },
+            {
+                path: 'user-edit/:userId',
+                name: 'user-edit',
+                component: UserEdit,
             },
 
         ]
