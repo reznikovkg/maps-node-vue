@@ -52,25 +52,6 @@ app.get('/register', function(req, res, next) {
 
 });
 
-
-app.get('/activate', function(req, res, next) {
-    const token = req.param('token');
-
-    models.Users.findOne({ where: {
-            token: token
-        } })
-        .then(user => {
-            user.update({
-                isActivate: true
-            }).then(() => {
-                res.status(200).send({'message':'Активировано'});
-            })
-
-        });
-});
-
-
-
 app.get('/connect', function(req, res, next) {
     const token = req.param('token');
 
@@ -91,5 +72,21 @@ app.get('/connect', function(req, res, next) {
         });
 });
 
+app.get('/uniqueUsername', function(req, res, next) {
+    const username = req.param('username');
+
+    models.Users.findOne({ where: {
+            username: username
+        } })
+        .then(user => {
+            if (user) {
+                res.status(500).send({'error':'Имя занято'});
+            } else {
+                res.status(200).send({'message':'Имя свободно'});
+            }
+        }).catch(()=>{
+            res.status(200).send({'message':'Имя свободно'});
+        });
+});
 
 module.exports = app;

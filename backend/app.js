@@ -17,6 +17,8 @@ app.use(session({
 
 var indexRouter = require('./routes/index');
 var apiAuthRoute = require('./routes/api/auth');
+var apiAdminRoute = require('./routes/api/admin');
+var apiUserRoute = require('./routes/api/user');
 
 
 app.use(cors());
@@ -33,6 +35,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/auth', apiAuthRoute);
+app.use('/api/admin', apiAdminRoute);
+app.use('/api/user', apiUserRoute);
 
 
 

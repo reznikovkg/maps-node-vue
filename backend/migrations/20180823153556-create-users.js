@@ -6,9 +6,11 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        unique: true,
         type: Sequelize.INTEGER
       },
       username: {
+        unique: true,
         type: Sequelize.STRING
       },
       email: {
@@ -18,6 +20,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       token: {
+        unique: true,
         type: Sequelize.STRING
       },
       isActivate: {

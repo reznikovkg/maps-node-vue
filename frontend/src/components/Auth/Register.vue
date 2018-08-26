@@ -1,6 +1,6 @@
 <template>
     <div class="auth-register">
-        <form>
+        <form @keyup.enter="sendForm">
             <div class="form-control">
                 <at-input
                         v-model="form.username"
@@ -111,8 +111,19 @@
         watch: {
             'form.username':function () {
                 if ((this.form.username.length > 0) && ( /^[a-zA-Z0-9]+$/.test(this.form.username))) {
-                    this.valid.username = true;
-                    this.status.username = 'success';
+                    axios.get(this.$root.domain + '/api/auth/uniqueUsername', {
+                        params: {
+                            username: this.form.username,
+                        }
+                    })
+                        .then((response) => {
+                            this.valid.username = true;
+                            this.status.username = 'success';
+                        })
+                        .catch((error) => {
+                            this.valid.username = false;
+                            this.status.username = 'error';
+                        })
                 } else {
                     this.valid.username = false;
                     this.status.username = 'error';
