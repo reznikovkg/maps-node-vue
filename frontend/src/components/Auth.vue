@@ -39,7 +39,8 @@
                         this.$router.push('/page');
                     }
                 },
-                deep: true
+                deep: true,
+                immediate: true
             }
         },
     }

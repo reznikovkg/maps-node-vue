@@ -11,6 +11,15 @@
 
         <div class="aside-menu">
             <at-menu mode="vertical" width="100%">
+
+                <at-submenu v-if="this.$root.user.isAdmin">
+                    <template slot="title"><i class="icon icon-lock"></i>Администратор</template>
+                    <at-menu-item
+                            :router="true"
+                            :to="{name : 'user-list'}">
+                        <i class="icon icon-list"></i>Список пользователей</at-menu-item>
+                </at-submenu>
+
                 <at-submenu>
                     <template slot="title"><i class="icon icon-globe"></i>Карты</template>
                     <at-menu-item
@@ -18,13 +27,6 @@
                         <i class="icon icon-map-pin"></i>Локации</at-menu-item>
                 </at-submenu>
 
-                <at-submenu>
-                    <template slot="title"><i class="icon icon-lock"></i>Администратор</template>
-                    <at-menu-item
-                            :router="true"
-                            :to="{name : 'user-list'}">
-                        <i class="icon icon-list"></i>Список пользователей</at-menu-item>
-                </at-submenu>
 
                 <at-submenu>
                     <template slot="title"><i class="icon icon-settings"></i>Настройки</template>
@@ -46,6 +48,10 @@
 <script>
     export default {
         name: "page-aside",
+        data () {
+          return {
+          }
+        },
         methods: {
             outLogin: function () {
                 this.$root.userOut();

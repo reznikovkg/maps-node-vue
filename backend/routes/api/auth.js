@@ -16,7 +16,20 @@ app.get('/login', function(req, res, next) {
                 .then(user => {
                     if (user) {
                         if (user.password == password) {
-                            res.send({'token' : user.token});
+
+                            var token       = '';
+                            var words        = '-0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
+                            var max_position = words.length - 1;
+                            for( i = 0; i < 120; ++i ) {
+                                position = Math.floor ( Math.random() * max_position );
+                                token = token + words.substring(position, position + 1);
+                            }
+
+                            user.update({
+                                token: token,
+                            }).then((user) => {
+                                res.send({'token' : user.token});
+                            })
                         } else {
                             res.status(404).send({'error':'Неверный пароль'});
                         }

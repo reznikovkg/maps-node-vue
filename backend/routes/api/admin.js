@@ -78,7 +78,8 @@ app.get('/activate', function(req, res, next) {
     const username = req.param('username');
 
     models.Users.findOne({ where: {
-            token: token
+            token: token,
+            isAdmin: true
         } })
         .then(userAdmin => {
             if (userAdmin.isAdmin) {
