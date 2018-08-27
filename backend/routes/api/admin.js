@@ -30,6 +30,46 @@ app.get('/get/users', function(req, res, next) {
 
 
 
+app.get('/edit', function(req, res, next) {
+    const token = req.param('token');
+    const id = req.param('id');
+
+    const username = req.param('username');
+    const birthday = req.param('birthday');
+
+    models.Users.findOne({ where: {
+            token: token,
+            isAdmin: true
+        } })
+        .then(userAdmin => {
+
+            models.Users.findOne({ where: {
+                    id: id
+                } })
+                .then(user => {
+
+                    if ((username) && (birthday)) {
+
+                        user.update({
+                            username: username,
+                            birthday: birthday
+                        }).then(() => {
+                            res.status(200).send({'message':'Обновлено'});
+                        })
+
+                    } else {
+                        res.status(200).send({'user':user});
+                    }
+                })
+                .catch(()=>{
+                    res.status(404).send({'message':'Не найдено'});
+                });
+
+        })
+        .catch(()=>{
+            res.status(404).send({'message':'Нет прав'});
+        });
+});
 
 
 

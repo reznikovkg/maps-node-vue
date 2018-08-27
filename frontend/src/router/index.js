@@ -55,16 +55,25 @@ export default new Router({
         path: '/page',
         name: 'page',
         component: Page,
+        meta: {
+            title: 'Редактировать профиль'
+        },
         children: [
             {
                 path: 'edit',
                 name: 'edit-profile',
                 component: EditProfile,
+                meta: {
+                    title: 'Редактировать профиль'
+                }
             },
             {
                 path: 'edit-password',
                 name: 'edit-password',
                 component: EditPassword,
+                meta: {
+                    title: 'Сменить пароль'
+                }
             },
 
 
@@ -75,11 +84,17 @@ export default new Router({
                 path: 'user-list',
                 name: 'user-list',
                 component: UserList,
+                meta: {
+                    title: 'Список пользователей'
+                }
             },
             {
                 path: 'user-edit/:userId',
                 name: 'user-edit',
                 component: UserEdit,
+                meta: {
+                    title: 'Редактировать пользователя'
+                }
             },
 
         ]

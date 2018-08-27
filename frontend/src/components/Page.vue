@@ -12,8 +12,8 @@
 
 <script>
     import axios from 'axios';
-    import PageNavbar from "./nav/PageNavbar";
-    import PageAside from "./nav/PageAside";
+    import PageNavbar from "./Nav/PageNavbar";
+    import PageAside from "./Nav/PageAside";
 
     export default {
         name: "auth-login",
@@ -78,6 +78,9 @@
                 padding: 20px;
                 background: #fff;
                 box-shadow: 3px 3px 20px #181150;
+                & .at-table__body {
+                    overflow: auto;
+                }
             }
         }
     }

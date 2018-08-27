@@ -78,7 +78,14 @@ new Vue({
               this.$root.viewNotify('success','Успешно', 'Вы успешно вошли под именем - ' + this.user.username);
           },
           deep: true
-      }
+      },
+        '$route' : {
+            handler: function (val, oldVal) {
+                document.title = this.$route.meta.title;
+            },
+            deep: true,
+            immediate: true
+        }
     },
     created: function () {
         if (this.$cookie.get('token')) {

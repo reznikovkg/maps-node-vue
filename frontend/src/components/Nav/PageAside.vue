@@ -5,30 +5,37 @@
                 {{ this.$root.user.username }}
             </h4>
             <div>
-                <at-button @click="outLogin" size="small" icon="icon-user-plus">Выйти</at-button>
+                <at-button @click="outLogin" size="small" icon="icon-power">Выйти</at-button>
             </div>
         </div>
 
         <div class="aside-menu">
             <at-menu mode="vertical" width="100%">
                 <at-submenu>
-                    <template slot="title"><i class="icon icon-life-buoy"></i>Администратор</template>
+                    <template slot="title"><i class="icon icon-globe"></i>Карты</template>
                     <at-menu-item
-                            :router="true"
-                            :to="{name : 'user-list'}">
-                        <i class="icon icon-settings"></i>Список пользователей</at-menu-item>
+                    >
+                        <i class="icon icon-map-pin"></i>Локации</at-menu-item>
                 </at-submenu>
 
                 <at-submenu>
-                    <template slot="title"><i class="icon icon-life-buoy"></i>Настройки</template>
+                    <template slot="title"><i class="icon icon-lock"></i>Администратор</template>
+                    <at-menu-item
+                            :router="true"
+                            :to="{name : 'user-list'}">
+                        <i class="icon icon-list"></i>Список пользователей</at-menu-item>
+                </at-submenu>
+
+                <at-submenu>
+                    <template slot="title"><i class="icon icon-settings"></i>Настройки</template>
                     <at-menu-item
                             :router="true"
                             :to="{name : 'edit-profile'}">
-                        <i class="icon icon-settings"></i>Редактировать профиль</at-menu-item>
+                        <i class="icon icon-edit-1"></i>Редактировать профиль</at-menu-item>
                     <at-menu-item
                             :router="true"
                             :to="{name : 'edit-password'}">
-                        <i class="icon icon-settings"></i>Сменить пароль</at-menu-item>
+                        <i class="icon icon-refresh-cw"></i>Сменить пароль</at-menu-item>
                 </at-submenu>
 
             </at-menu>

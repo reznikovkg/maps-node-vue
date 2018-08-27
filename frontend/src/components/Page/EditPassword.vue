@@ -1,32 +1,29 @@
 <template>
     <div class="content">
         <div class="edit-profile">
-            <h3>Сменить пароль</h3>
+            <h3>Сменить пароль (not work)</h3>
             <form>
 
                 <div class="form-control">
-                    <label>Имя пользователя</label>
-                    <at-input v-model="form.username" placeholder="Имя пользователя">
+                    <label>Пароль</label>
+                    <at-input
+                            v-model="form.password"
+                            :status="status.password"
+                            placeholder="Пароль">
                     </at-input>
                 </div>
 
                 <div class="form-control">
-                    <label>Дата рождения</label>
-                    <at-select v-model="form.birthday.day" filterable style="width:100px">
-                        <at-option v-for="item in 31" :value="item">{{item}}</at-option>
-                    </at-select>
-
-                    <at-select v-model="form.birthday.month" filterable style="width:100px">
-                        <at-option v-for="item in 12" :value="item">{{ item }}</at-option>
-                    </at-select>
-
-                    <at-select v-model="form.birthday.year" filterable style="width:100px">
-                        <at-option v-for="item in 70" :value="item + 1950">{{item + 1950}}</at-option>
-                    </at-select>
+                    <label>Повторите пароль</label>
+                    <at-input
+                            v-model="form.password2"
+                            :status="status.password2"
+                            placeholder="Повторите пароль">
+                    </at-input>
                 </div>
 
                 <div class="form-control">
-                    <at-button :type="form.status">Сохранить</at-button>
+                    <at-button :type="status.button">Сохранить</at-button>
                 </div>
 
             </form>
@@ -40,19 +37,41 @@
         data () {
             return {
                 form: {
-                    username: this.$root.user.username,
-                    birthday: {
-                        date: new Date(this.$root.user.birthday),
-                        day: new Date(this.$root.user.birthday).getDate(),
-                        month: new Date(this.$root.user.birthday).getMonth(),
-                        year: new Date(this.$root.user.birthday).getFullYear()
-                    },
-
-                    status: 'default'
+                    password: '',
+                    password2: '',
                 },
+                status: {
+                    password: 'default',
+                    password2: 'default',
+                    button: 'default'
+                },
+                valid: {
+                    password: true,
+                    password2: true
+                }
 
             }
-        }
+        },
+        watch: {
+            'form.password':function () {
+                if ((this.form.password.length >= 1)  && ( /^[a-zA-Z0-9*#!+]+$/.test(this.form.password))){
+                    this.valid.password = true;
+                    this.status.password = 'success';
+                } else {
+                    this.valid.password = false;
+                    this.status.password = 'error';
+                }
+            },
+            'form.password2':function () {
+                if ((this.form.password2) === (this.form.password)){
+                    this.valid.password2 = true;
+                    this.status.password2 = 'success';
+                } else {
+                    this.valid.password2 = false;
+                    this.status.password2 = 'error';
+                }
+            },
+        },
     }
 </script>
 
