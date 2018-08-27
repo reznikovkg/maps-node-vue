@@ -75,7 +75,7 @@ new Vue({
       'user.token' : {
           handler: function (val, oldVal) {
               this.authenticated();
-              this.$root.viewNotify('success','Успешно', 'Вы успешно вошли под именем - ' + this.user.username);
+              this.$root.viewNotify('success','Успешно', 'Вы успешно вошли');
           },
           deep: true
       },

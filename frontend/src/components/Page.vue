@@ -38,7 +38,9 @@
                         this.$router.push('/login');
                     }
                 },
-                deep: true
+                deep: true,
+                immediate: true
+
             }
         },
     }
