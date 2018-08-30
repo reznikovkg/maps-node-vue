@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+
+  db:
+    image: "mysql"
+    networks:
+      - webnet
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: 1111
+      MYSQL_DATABASE: dsr_db
+
+  backend:
+    build: ./backend
+    command: npm start
+    ports:
+      - 8888:8888
+    networks:
+      - webnet
+    environment:
+      DB_HOST: db
+
+networks:
+  webnet:
+
+
+#  frontend:
+#    build: ./frontend
+
+
+

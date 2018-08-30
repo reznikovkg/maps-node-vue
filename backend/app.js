@@ -3,23 +3,21 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 var session = require('express-session');
-
 const cors = require('cors');
-
-var app = express();
-app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false,
-}));
 
 var indexRouter = require('./routes/index');
 var apiAuthRoute = require('./routes/api/auth');
 var apiAdminRoute = require('./routes/api/admin');
 var apiUserRoute = require('./routes/api/user');
 
+var app = express();
+
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+}));
 
 app.use(cors());
 

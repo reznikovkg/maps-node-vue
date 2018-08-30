@@ -113,7 +113,6 @@
             }
         },
         mounted: function () {
-            console.log(213);
             axios.get(this.$root.domain + '/api/admin/get/users',{
                 params: {
                     token: this.$root.user.token

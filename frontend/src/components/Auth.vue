@@ -59,13 +59,19 @@
         transform: translateX(-500px);
     }
 
+    @colorWhite: #ffffff;
+    @colorGrey: #343434;
+    @colorBlue: #009eda;
+    @colorPurple: #a100f3;
+    @colorBlueDark: #181150;
+
     .auth-field {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(#009eda,#a100f3);
+        background: linear-gradient(@colorBlue,@colorPurple);
         overflow: hidden;
 
         display: flex;
@@ -78,8 +84,8 @@
             max-width: 300px;
             padding: 10px;
             margin: 10px;
-            background: #fff;
-            box-shadow: 3px 3px 10px #343434;
+            background: @colorWhite;
+            box-shadow: 3px 3px 10px @colorGrey;
             overflow: hidden;
             border-radius: 5px;
             & form {
