@@ -41,7 +41,7 @@ new Vue({
       },
 
       authenticated : function () {
-            axios.get(this.domain + '/api/Auth/connect', {
+            axios.get(`${this.domain}/api/Auth/connect`, {
                 params: {
                     token: this.user.token
                 }

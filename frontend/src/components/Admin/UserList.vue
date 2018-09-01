@@ -48,13 +48,13 @@
                                     },
                                     on: {
                                         change: () => {
-                                            axios.get(this.$root.domain + '/api/admin/activate',{
+                                            axios.get(`${this.$root.domain}/api/admin/activate`,{
                                                 params: {
                                                     token: this.$root.user.token,
                                                     username: params.item.username
                                                 }
                                             }).then((response)=>{
-                                                this.$root.viewNotify('success','Успешно', 'Статус ' + params.item.username + ' изменен.');
+                                                this.$root.viewNotify('success','Успешно', `Статус ${params.item.username} изменен.`);
                                             });
                                         }
                                     }
@@ -75,13 +75,13 @@
                                     },
                                     on: {
                                         change: () => {
-                                            axios.get(this.$root.domain + '/api/admin/activateAdmin',{
+                                            axios.get(`${this.$root.domain}/api/admin/activateAdmin`,{
                                                 params: {
                                                     token: this.$root.user.token,
                                                     username: params.item.username
                                                 }
                                             }).then((response)=>{
-                                                this.$root.viewNotify('success','Успешно', 'Права ' + params.item.username + ' изменены.');
+                                                this.$root.viewNotify('success','Успешно', `Права ${params.item.username} изменены.`);
                                             });
                                         }
                                     }
@@ -113,7 +113,7 @@
             }
         },
         mounted: function () {
-            axios.get(this.$root.domain + '/api/admin/get/users',{
+            axios.get(`${this.$root.domain}/api/admin/get/users`,{
                 params: {
                     token: this.$root.user.token
                 }

@@ -54,7 +54,7 @@
             sendForm: function () {
                 if ((this.valid.username) && (this.valid.password)) {
 
-                    axios.get(this.$root.domain + '/api/auth/login',{
+                    axios.get(`${this.$root.domain}/api/auth/login`,{
                         params: {
                             username: this.form.username,
                             password: this.form.password

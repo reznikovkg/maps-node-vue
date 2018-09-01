@@ -6,7 +6,6 @@ var models = require('../../models');
 
 const status = require('../../config/const')['status'];
 
-
 app.use(function (req, res, next) {
     const token = req.param('token');
     models.Users.findOne({ where: {
@@ -16,7 +15,8 @@ app.use(function (req, res, next) {
             if (user.isAdmin) {
                 next();
             } else {
-                res.status(status.FORBIDDEN.CODE).send({'message':status.FORBIDDEN.MESSAGE});
+                res.status(status.FORBIDDEN.CODE)
+                    .send({'message':status.FORBIDDEN.MESSAGE});
             }
         })
         .catch(()=>{
@@ -33,7 +33,8 @@ app.get('/get/users', function(req, res, next) {
             res.status(status.OK.CODE).send({'users':users});
         })
         .catch(()=>{
-            res.status(status.NOT_FOUND.CODE).send({'message':status.NOT_FOUND.MESSAGE});
+            res.status(status.NOT_FOUND.CODE)
+                .send({'message':status.NOT_FOUND.MESSAGE});
         });
 });
 
@@ -51,15 +52,18 @@ app.get('/edit', function(req, res, next) {
                     username: username,
                     birthday: birthday
                 }).then(() => {
-                    res.status(status.OK.CODE).send({'message':'Обновлено'});
+                    res.status(status.OK.CODE)
+                        .send({'message':'Обновлено'});
                 })
 
             } else {
-                res.status(status.OK.CODE).send({'user':user});
+                res.status(status.OK.CODE)
+                    .send({'user':user});
             }
         })
         .catch(()=>{
-            res.status(404).send({'message':'Не найдено'});
+            res.status(status.NOT_FOUND.CODE)
+                .send({'message':status.NOT_FOUND.MESSAGE});
         });
 });
 
