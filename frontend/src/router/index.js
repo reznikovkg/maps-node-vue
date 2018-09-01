@@ -19,6 +19,7 @@ import Page from '../components/Page'
 import EditProfile from '../components/Page/EditProfile'
 import EditPassword from '../components/Page/EditPassword'
 
+import Map from '../components/Page/Maps/Map'
 
 import UserList from '../components/Admin/UserList'
 import UserEdit from '../components/Admin/UserEdit'
@@ -55,9 +56,6 @@ export default new Router({
         path: '/page',
         name: 'page',
         component: Page,
-        meta: {
-            title: 'Редактировать профиль'
-        },
         children: [
             {
                 path: 'edit',
@@ -76,7 +74,14 @@ export default new Router({
                 }
             },
 
-
+            {
+                path: 'maps',
+                name: 'maps-map',
+                component: Map,
+                meta: {
+                    title: 'Карта'
+                }
+            },
 
 
             //admin

@@ -23,6 +23,10 @@
                 <at-submenu>
                     <template slot="title"><i class="icon icon-globe"></i>Карты</template>
                     <at-menu-item
+                            :router="true"
+                            :to="{name : 'maps-map'}">
+                        <i class="icon icon-map-pin"></i>Карта</at-menu-item>
+                    <at-menu-item
                     >
                         <i class="icon icon-map-pin"></i>Локации</at-menu-item>
                 </at-submenu>
