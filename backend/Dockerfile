@@ -2,10 +2,13 @@ FROM node:latest
 
 WORKDIR /var/www/backend
 
+COPY . ./
+
+
 RUN apt-get -y update
+RUN npm install
 
-CMD ["npm", "install"]
 
-#RUN node_modules/.bin/sequelize db:migrate
-#RUN node_modules/.bin/sequelize db:seed:all
+EXPOSE 8888
+
 

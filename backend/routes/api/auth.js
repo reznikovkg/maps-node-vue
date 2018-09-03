@@ -37,6 +37,8 @@ app.get('/login', function(req, res, next) {
                 } else {
                     res.status(status.NOT_FOUND.CODE).send({'error':'Пользователь с именем '+ username +' не найден'});
                 }
+            }).catch((error) => {
+
             });
     } else {
         res.status(status.INTERVAL_SERVER_ERROR.CODE).send({'error': 'Ошибка валидации'});

@@ -2,20 +2,23 @@ version: '3'
 
 services:
 
-  mysql-dev:
+  db:
     image: mysql:8.0.2
     restart: always
+    user: mysql
     environment:
       MYSQL_ROOT_PASSWORD: 1111
       MYSQL_DATABASE: dsrdb
     ports:
-      - 3308:3306
+      - 3306:3306
 
-  backend2:
+  web:
     build: ./backend
+    command: sh db.sh
     ports:
       - 8888:8888
     volumes:
       - ./backend:/var/www/backend
+
 
 
