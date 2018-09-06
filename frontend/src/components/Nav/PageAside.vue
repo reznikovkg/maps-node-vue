@@ -18,12 +18,21 @@
                             :router="true"
                             :to="{name : 'user-list'}">
                         <i class="icon icon-list"></i>Список пользователей</at-menu-item>
+                    <at-menu-item
+                            :router="true"
+                            :to="{name : 'admin-locations'}">
+                        <i class="icon icon-map-pin"></i>Локации</at-menu-item>
                 </at-submenu>
 
                 <at-submenu>
                     <template slot="title"><i class="icon icon-globe"></i>Карты</template>
                     <at-menu-item
-                    >
+                            :router="true"
+                            :to="{name : 'maps-map'}">
+                        <i class="icon icon-map-pin"></i>Карта</at-menu-item>
+                    <at-menu-item
+                            :router="true"
+                            :to="{name : 'maps-locations'}">
                         <i class="icon icon-map-pin"></i>Локации</at-menu-item>
                 </at-submenu>
 
@@ -61,20 +70,27 @@
 </script>
 
 <style lang="less">
+
+    @colorWhite: #ffffff;
+    @colorGrey: #343434;
+    @colorBlue: #009eda;
+    @colorPurple: #a100f3;
+    @colorBlueDark: #181150;
+
     .page-aside {
         width: 300px;
         position: absolute;
         top: 0;
         left: 0;
         bottom: 0;
-        background: #fff;
-        box-shadow: 0 0 8px #181150;
+        background: @colorWhite;
+        box-shadow: 0 0 8px @colorBlueDark;
         & .aside-user {
             & .aside-user-name {
                 text-align: center;
                 padding: 10px;
                 &.admin {
-                    color: #6190e8;
+                    color: @colorBlue;
                     font-size: 25px;
                 }
             }
@@ -86,9 +102,6 @@
             }
             & div {
                 text-align: center;
-                & .aside-user-outlogin {
-                    color: #888;
-                }
             }
         }
     }

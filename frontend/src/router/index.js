@@ -6,9 +6,25 @@ import VueCookie from 'vue-cookie';
 
 import 'at-ui-style'
 
+
 Vue.use(Router);
 Vue.use(AtComponents);
 Vue.use(VueCookie);
+
+// import 'vue-googlemaps/dist/vue-googlemaps.css'
+// import VueGoogleMaps from 'vue-googlemaps'
+//
+// Vue.use(VueGoogleMaps, {
+//     load: {
+//         // Google API key
+//         apiKey: 'AIzaSyAus17T4GYjhlS9cQ-iRWaE09t788ot3es',
+//         // Enable more Google Maps libraries here
+//         libraries: ['places'],
+//         // Use new renderer
+//         useBetaRenderer: false,
+//     },
+// });
+
 
 
 import Auth from '../components/Auth'
@@ -19,9 +35,12 @@ import Page from '../components/Page'
 import EditProfile from '../components/Page/EditProfile'
 import EditPassword from '../components/Page/EditPassword'
 
+import Map from '../components/Page/Maps/Map'
+import Locations from '../components/Page/Maps/Locations'
 
 import UserList from '../components/Admin/UserList'
 import UserEdit from '../components/Admin/UserEdit'
+import AdminLocations from '../components/Admin/Locations'
 
 export default new Router({
   mode: 'history',
@@ -55,9 +74,6 @@ export default new Router({
         path: '/page',
         name: 'page',
         component: Page,
-        meta: {
-            title: 'Редактировать профиль'
-        },
         children: [
             {
                 path: 'edit',
@@ -76,8 +92,22 @@ export default new Router({
                 }
             },
 
-
-
+            {
+                path: 'maps',
+                name: 'maps-map',
+                component: Map,
+                meta: {
+                    title: 'Карта'
+                }
+            },
+            {
+                path: 'locations',
+                name: 'maps-locations',
+                component: Locations,
+                meta: {
+                    title: 'Локации'
+                }
+            },
 
             //admin
             {
@@ -94,6 +124,14 @@ export default new Router({
                 component: UserEdit,
                 meta: {
                     title: 'Редактировать пользователя'
+                }
+            },
+            {
+                path: 'admin-locations',
+                name: 'admin-locations',
+                component: AdminLocations,
+                meta: {
+                    title: 'Локации'
                 }
             },
 

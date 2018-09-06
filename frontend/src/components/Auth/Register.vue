@@ -74,7 +74,7 @@
         methods: {
             sendForm: function () {
                 if ((this.valid.username) && (this.valid.email) && (this.valid.password) && (this.valid.password2)) {
-                    axios.get(this.$root.domain + '/api/auth/register', {
+                    axios.get(`${this.$root.domain}/api/auth/register`, {
                         params: {
                             username: this.form.username,
                             email: this.form.email,
@@ -111,7 +111,7 @@
         watch: {
             'form.username':function () {
                 if ((this.form.username.length > 0) && ( /^[a-zA-Z0-9]+$/.test(this.form.username))) {
-                    axios.get(this.$root.domain + '/api/auth/uniqueUsername', {
+                    axios.get(`${this.$root.domain}/api/auth/uniqueUsername`, {
                         params: {
                             username: this.form.username,
                         }

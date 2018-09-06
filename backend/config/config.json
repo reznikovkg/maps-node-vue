@@ -4,20 +4,23 @@
         "password": "1111",
         "database": "dsr_db",
         "host": "127.0.0.1",
+        "port": "3306",
         "dialect": "mysql"
     },
     "test": {
         "username": "root",
-        "password": null,
-        "database": "database_test",
+        "password": "1111",
+        "database": "dsrdb",
         "host": "127.0.0.1",
+        "port": "3306",
         "dialect": "mysql"
     },
     "production": {
-        "username": "root",
-        "password": null,
-        "database": "database_test",
         "host": "127.0.0.1",
-        "dialect": "mysql"
+        "port": "3306",
+        "database": "dsrdb",
+        "password": "1111",
+        "name": "db",
+        "user": "root"
     }
 }

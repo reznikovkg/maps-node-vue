@@ -5,14 +5,16 @@
                 <at-input
                         v-model="form.username"
                         :status="status.username"
-                        placeholder="Имя пользователя"></at-input>
+                        placeholder="Имя пользователя"
+                        icon="user"></at-input>
             </div>
             <div class="form-control">
                 <at-input
                         v-model="form.password"
                         :status="status.password"
                         type="password"
-                        placeholder="Пароль"></at-input>
+                        placeholder="Пароль"
+                        icon="lock"></at-input>
             </div>
             <div class="form-control">
                 <at-button
@@ -54,7 +56,7 @@
             sendForm: function () {
                 if ((this.valid.username) && (this.valid.password)) {
 
-                    axios.get(this.$root.domain + '/api/auth/login',{
+                    axios.get(`${this.$root.domain}/api/auth/login`,{
                         params: {
                             username: this.form.username,
                             password: this.form.password

@@ -71,24 +71,18 @@
             customFormatter(date) {
                 this.form.birthday = date;
 
-                var mon = this.form.birthday.getMonth() + 1;
-
-                this.form.birthdayText = this.form.birthday.getFullYear() + '-' +
-                    mon + '-' +
-                    this.form.birthday.getDate();
+                this.form.birthdayText = `${this.form.birthday.getFullYear()}-${this.form.birthday.getMonth() + 1}-${this.form.birthday.getDate()}`;
             },
             setForm: function () {
                 this.form.username = this.$root.user.username;
 
                 this.form.birthday = new Date(this.$root.user.birthday);
 
-                this.form.birthdayText = this.form.birthday.getFullYear() + '-' +
-                    this.form.birthday.getMonth() + '-' +
-                    this.form.birthday.getDate();
+                this.form.birthdayText = `${this.form.birthday.getFullYear()}-${this.form.birthday.getMonth()}-${this.form.birthday.getDate()}`;
             },
             sendForm: function () {
                 if ((this.valid.username) && (this.valid.birthday)) {
-                    axios.get(this.$root.domain + '/api/user/edit', {
+                    axios.get(`${this.$root.domain}/api/user/edit`, {
                         params: {
                             token: this.$root.user.token,
                             username: this.form.username,
@@ -119,7 +113,7 @@
         watch: {
             'form.username':function () {
                 if ((this.form.username.length > 0) && ( /^[a-zA-Z0-9]+$/.test(this.form.username))) {
-                    axios.get(this.$root.domain + '/api/auth/uniqueUsername', {
+                    axios.get(`${this.$root.domain}/api/auth/uniqueUsername`, {
                         params: {
                             username: this.form.username,
                         }

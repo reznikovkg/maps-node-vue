@@ -68,7 +68,7 @@
             }
         },
         mounted: function () {
-            axios.get(this.$root.domain + '/api/admin/edit', {
+            axios.get(`${this.$root.domain}/api/admin/edit`, {
                 params: {
                     token: this.$root.user.token,
                     id: this.$route.params.userId,
@@ -80,11 +80,7 @@
 
                     this.form.birthday = new Date(response.data.user.birthday);
 
-                    var mon = this.form.birthday.getMonth() + 1;
-
-                    this.form.birthdayText = this.form.birthday.getFullYear() + '-' +
-                        mon + '-' +
-                        this.form.birthday.getDate();
+                    this.form.birthdayText = `${this.form.birthday.getFullYear()}-${this.form.birthday.getMonth() + 1}-${this.form.birthday.getDate()}`;
 
                 })
                 .catch((error) => {
@@ -95,26 +91,18 @@
             customFormatter(date) {
                 this.form.birthday = date;
 
-                var mon = this.form.birthday.getMonth() + 1;
-
-                this.form.birthdayText = this.form.birthday.getFullYear() + '-' +
-                    mon + '-' +
-                    this.form.birthday.getDate();
+                this.form.birthdayText = `${this.form.birthday.getFullYear()}-${this.form.birthday.getMonth() + 1}-${this.form.birthday.getDate()}`;
             },
             setForm: function () {
                 this.form.username = this.$root.user.username;
 
                 this.form.birthday = new Date(this.$root.user.birthday);
 
-                var mon = this.form.birthday.getMonth() + 1;
-
-                this.form.birthdayText = this.form.birthday.getFullYear() + '-' +
-                    mon + '-' +
-                    this.form.birthday.getDate();
+                this.form.birthdayText = `${this.form.birthday.getFullYear()}-${this.form.birthday.getMonth() + 1}-${this.form.birthday.getDate()}`;
             },
             sendForm: function () {
                 if ((this.valid.username) && (this.valid.birthday)) {
-                    axios.get(this.$root.domain + '/api/admin/edit', {
+                    axios.get(`${this.$root.domain}/api/admin/edit`, {
                         params: {
                             token: this.$root.user.token,
                             id: this.$route.params.userId,
@@ -146,7 +134,7 @@
         watch: {
             'form.username':function () {
                 if ((this.form.username.length > 0) && ( /^[a-zA-Z0-9]+$/.test(this.form.username))) {
-                    axios.get(this.$root.domain + '/api/auth/uniqueUsername', {
+                    axios.get(`${this.$root.domain}/api/auth/uniqueUsername`, {
                         params: {
                             username: this.form.username,
                         }
