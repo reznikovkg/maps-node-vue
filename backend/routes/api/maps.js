@@ -15,4 +15,15 @@ app.get('/allMarkers', function(req, res, next) {
         });
 });
 
+app.get('/allLocationCircle', function(req, res, next) {
+
+    models.LocationCircles.findAll()
+        .then(LocationCircle => {
+            res.status(200).send({'locationCircle':LocationCircle});
+        })
+        .catch((error)=>{
+            res.status(404).send({'message':error});
+        });
+});
+
 module.exports = app;

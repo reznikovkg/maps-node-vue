@@ -1,12 +1,13 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Marker = sequelize.define('Markers', {
+  const LocationCircle = sequelize.define('LocationCircles', {
     name: DataTypes.STRING,
+    radius: DataTypes.FLOAT,
     lat: DataTypes.FLOAT,
     lng: DataTypes.FLOAT,
   }, {});
-  Marker.associate = function(models) {
+    LocationCircle.associate = function(models) {
     // associations can be defined here
   };
-  return Marker;
+  return LocationCircle;
 };

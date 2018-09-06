@@ -1,6 +1,12 @@
 <template>
     <div class="content">
-        <div id="map"></div>
+        <GmapMap
+                :center="{lat:10, lng:10}"
+                :zoom="7"
+                map-type-id="terrain"
+                style="width: 100%; height: 500px"
+        >
+        </GmapMap>
     </div>
 </template>
 
@@ -12,59 +18,27 @@
         data () {
             return {
                 map: null,
-                markers5: null,
+                markers: null,
 
                 lat: null,
-                lng: null
+                lng: null,
+                center: {lat: -34.397, lng: 150.644},
+                zoom: 5
 
             }
         },
         mounted: function () {
-            this.initMap();
-            this.getMarkers();
+            // this.initMap();
         },
         methods: {
-            initMap: function () {
-                this.map = new google.maps.Map(document.getElementById('map'), {
-                    center: {lat: -34.397, lng: 150.644},
-                    zoom: 8
-                });
 
-                google.maps.event.addListener(this.map, 'click', (event) => {
-                    console.log(event.latLng.lat());
-                    this.lat = event.latLng.lat();
-                    this.lng = event.latLng.lng();
-                    var marker = new google.maps.Marker({
-                        position: event.latLng,
-                        map: this.map
-                    });
-                });
-            },
-            getMarkers: function () {
-                axios.get(`${this.$root.domain}/api/maps/allMarkers`)
-                    .then((response)=>{
-
-
-                        this.markers5 = response.data.markers;
-
-                        var markers = this.markers5;
-
-                        markers.forEach((item, i, markers) => {
-                            var uluru = {lat: item.lat, lng: item.lng};
-                            var marker = new google.maps.Marker({position: uluru, map: this.map});
-                        });
-
-
-
-                    });
-            },
         }
 
     }
 </script>
 
 <style lang="less">
-    #map {
+    #map, .vue-google-map {
         height: 500px;
     }
 </style>

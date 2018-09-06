@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Markers', {
+    return queryInterface.createTable('LocationCircles', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,6 +11,9 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING
+      },
+      radius: {
+          type: Sequelize.FLOAT
       },
       lat: {
         type: Sequelize.FLOAT
@@ -23,6 +26,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Markers');
+    return queryInterface.dropTable('LocationCircles');
   }
 };

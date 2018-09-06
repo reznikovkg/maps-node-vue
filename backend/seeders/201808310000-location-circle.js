@@ -2,9 +2,10 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-      return queryInterface.bulkInsert('Markers', [
+      return queryInterface.bulkInsert('LocationCircles', [
           {
               name: 'admin',
+              radius: '1000000',
               lat: '12.3',
               lng: '12.3',
               createdAt: '1996-05-23',
@@ -12,6 +13,7 @@ module.exports = {
           },
           {
               name: 'admin',
+              radius: '1000000',
               lat: '12.33',
               lng: '12.22',
               createdAt: '1996-05-23',
@@ -21,6 +23,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Markers', null, {});
+    return queryInterface.bulkDelete('LocationCircles', null, {});
   }
 };

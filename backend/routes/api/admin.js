@@ -111,4 +111,42 @@ app.get('/activateAdmin', function(req, res, next) {
     }
 });
 
+
+
+
+//MAPS
+app.get('/sendMarker', function(req, res, next) {
+    const name = req.param('name');
+    const lat = req.param('lat');
+    const lng = req.param('lng');
+
+    const marker = models.Markers.build({
+        name: name,
+        lat: lat,
+        lng: lng
+    });
+
+    marker.save().then(() => {
+        res.status(200).send({'message': 'Успех'});
+    });
+});
+
+app.get('/sendLocationCircle', function(req, res, next) {
+    const name = req.param('name');
+    const radius = req.param('radius');
+    const lat = req.param('lat');
+    const lng = req.param('lng');
+
+    const LocationCircle = models.LocationCircles.build({
+        name: name,
+        radius: radius,
+        lat: lat,
+        lng: lng
+    });
+
+    LocationCircle.save().then(() => {
+        res.status(200).send({'message': 'Успех'});
+    });
+});
+
 module.exports = app;

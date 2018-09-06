@@ -5,6 +5,15 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 
+import * as VueGoogleMaps from 'vue2-google-maps'
+Vue.use(VueGoogleMaps, {
+    load: {
+        key: 'AIzaSyAus17T4GYjhlS9cQ-iRWaE09t788ot3es',
+        libraries: 'places',
+    },
+});
+
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

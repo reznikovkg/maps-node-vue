@@ -18,6 +18,10 @@
                             :router="true"
                             :to="{name : 'user-list'}">
                         <i class="icon icon-list"></i>Список пользователей</at-menu-item>
+                    <at-menu-item
+                            :router="true"
+                            :to="{name : 'admin-locations'}">
+                        <i class="icon icon-map-pin"></i>Локации</at-menu-item>
                 </at-submenu>
 
                 <at-submenu>
@@ -27,7 +31,8 @@
                             :to="{name : 'maps-map'}">
                         <i class="icon icon-map-pin"></i>Карта</at-menu-item>
                     <at-menu-item
-                    >
+                            :router="true"
+                            :to="{name : 'maps-locations'}">
                         <i class="icon icon-map-pin"></i>Локации</at-menu-item>
                 </at-submenu>
 
