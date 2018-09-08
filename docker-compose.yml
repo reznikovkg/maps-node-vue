@@ -8,17 +8,17 @@ services:
     user: mysql
     environment:
       MYSQL_ROOT_PASSWORD: 1111
-      MYSQL_DATABASE: dsrdb
+      MYSQL_DATABASE: dsr_db
     ports:
       - 3306:3306
 
   web:
     build: ./backend
-    command: sh db.sh
+    command: npm start
     ports:
       - 8888:8888
     volumes:
       - ./backend:/var/www/backend
-
-
+    links:
+      - db
 
