@@ -2,7 +2,7 @@
     <div class="content">
         <GmapMap
                 :center="{lat:10, lng:10}"
-                :zoom="7"
+                :zoom="zoom"
                 map-type-id="terrain"
                 style="width: 100%; height: 500px"
         >
@@ -23,7 +23,7 @@
                 lat: null,
                 lng: null,
                 center: {lat: -34.397, lng: 150.644},
-                zoom: 5
+                zoom: 1
 
             }
         },

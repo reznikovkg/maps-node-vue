@@ -9,7 +9,7 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.use(VueGoogleMaps, {
     load: {
         key: 'AIzaSyAus17T4GYjhlS9cQ-iRWaE09t788ot3es',
-        libraries: 'places',
+        libraries: 'places,geometry',
     },
 });
 
@@ -24,6 +24,7 @@ new Vue({
     return {
       domain: 'http://localhost:8888',
       user: {
+          id: null,
           token: null,
 
           isAuthenticated: false,
@@ -59,6 +60,7 @@ new Vue({
                 this.$cookie.set('token', this.user.token, 3);
                 this.user.isAuthenticated = true;
 
+                this.user.id = response.data.id;
                 this.user.isActivate = response.data.isActivate;
                 this.user.isAdmin = response.data.isAdmin;
                 this.user.username = response.data.username;
@@ -68,6 +70,7 @@ new Vue({
                     this.$cookie.delete('token');
                     this.user.isAuthenticated = false;
 
+                    this.user.id = '';
                     this.user.isActivate = '';
                     this.user.isAdmin = '';
                     this.user.username = '';

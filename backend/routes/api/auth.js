@@ -81,11 +81,13 @@ app.get('/connect', function(req, res, next) {
         .then(user => {
             if (user) {
                 res.send({
+                    'id': user.id,
                     'isActivate' : user.isActivate,
                     'isAdmin' : user.isAdmin,
                     'username' : user.username,
                     'birthday' : user.birthday
                 });
+
             } else {
                 res.status(500).send({'error':'Недействительный токен'});
             }

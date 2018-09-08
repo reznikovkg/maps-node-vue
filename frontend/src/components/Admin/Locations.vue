@@ -15,6 +15,7 @@
 
             <gmap-circle
                 v-for="(locCircle, index) in locationCircle"
+                :key="locCircle.id"
                 :bounds="circleBounds"
                 :center="{lat:locCircle.lat, lng:locCircle.lng}"
                 :radius="locCircle.radius"
