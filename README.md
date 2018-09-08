@@ -3,23 +3,30 @@
 ## Deploy a project ##
 
     git clone https://github.com/reznikovkg/maps-node-vue
+    
     cd maps-node-vue
-    sh deploy-project.sh
 
 ## Run a project ##
 
 #### Need 2 session of terminal ####
 
-    cd backend && npm start
-    
-    cd frontend && npm run dev
+    docker-compose up
+   
+After deploying the docker (this lasts a long time). Run the second terminal and command:
+
+    sh deploy-project.sh
 
 ### Database ###
 
     db_core: mysql
     
-    db_name: krim
+    db_name: dsr_db
     db_user: root
     db_pass: 1111
 
 Or change it in the project
+
+
+### Clear docker ###
+
+    sh crash-project.sh
