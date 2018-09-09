@@ -4,14 +4,16 @@ var app = express();
 
 var models = require('../../models');
 
+const status = require('../../config/const')['status'];
+
 app.get('/allMarkers', function(req, res, next) {
 
     models.Markers.findAll()
         .then(markers => {
-            res.status(200).send({'markers':markers});
+            res.status(status.OK.CODE).send({'markers':markers});
         })
         .catch(()=>{
-            res.status(404).send({'message':'Нет прав'});
+            res.status(status.NOT_FOUND.CODE).send({'message':'Нет прав'});
         });
 });
 
@@ -19,10 +21,10 @@ app.get('/allLocationCircle', function(req, res, next) {
 
     models.LocationCircles.findAll()
         .then(LocationCircle => {
-            res.status(200).send({'locationCircle':LocationCircle});
+            res.status(status.OK.CODE).send({'locationCircle':LocationCircle});
         })
         .catch((error)=>{
-            res.status(404).send({'message':error});
+            res.status(status.NOT_FOUND.CODE).send({'message':error});
         });
 });
 
@@ -32,9 +34,6 @@ app.get('/setLocationPoint', function(req, res, next) {
 
     const lat = req.param('lat');
     const lng = req.param('lng');
-
-
-
     models.LocationUsers.findOne({ where: {
             user: user
         } })
@@ -43,10 +42,10 @@ app.get('/setLocationPoint', function(req, res, next) {
                 LocationUser.update({
                     lat: lat,
                     lng: lng
-                }).then(() => {
+                }).then(LocationUser => {
                     res.status(status.OK.CODE).send({'message': status.OK.MESSAGE});
                 }).catch((error)=>{
-                    res.status(404).send({'message':error});
+                    res.status(status.NOT_FOUND.CODE).send({'message':status.NOT_FOUND.MESSAGE});
                 })
             } else {
                 const LocationUser = models.LocationUsers.build({
@@ -56,14 +55,38 @@ app.get('/setLocationPoint', function(req, res, next) {
                 });
 
                 LocationUser.save().then(() => {
-                    res.status(200).send({'message': 'Успех'});
+                    res.status(status.OK.CODE).send({'message': 'Успех'});
                 });
             }
 
-
         })
         .catch((error)=>{
-            res.status(404).send({'message':error});
+            res.status(status.NOT_FOUND.CODE).send({'message':status.NOT_FOUND.MESSAGE});
+        });
+});
+
+app.get('/getLocationUser', function(req, res, next) {
+    const user = req.param('id');
+
+    models.LocationUsers.findOne({ where: {
+            user: user
+        } })
+        .then(LocationUser => {
+            res.status(status.OK.CODE).send({'locationUser':LocationUser});
+        })
+        .catch((error)=>{
+            res.status(status.NOT_FOUND.CODE).send({'message':status.NOT_FOUND.MESSAGE});
+        });
+});
+
+app.get('/allLocationUsers', function(req, res, next) {
+
+    models.LocationUsers.findAll()
+        .then(LocationUser => {
+            res.status(status.OK.CODE).send({'locationUsers':LocationUser});
+        })
+        .catch((error)=>{
+            res.status(status.NOT_FOUND.CODE).send({'message':status.NOT_FOUND.MESSAGE});
         });
 });
 

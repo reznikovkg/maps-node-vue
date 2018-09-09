@@ -33,7 +33,7 @@
                     <at-menu-item
                             :router="true"
                             :to="{name : 'maps-locations'}">
-                        <i class="icon icon-map-pin"></i>Локации</at-menu-item>
+                        <i class="icon icon-map-pin"></i>Моя локация</at-menu-item>
                 </at-submenu>
 
 
@@ -48,6 +48,10 @@
                             :to="{name : 'edit-password'}">
                         <i class="icon icon-refresh-cw"></i>Сменить пароль</at-menu-item>
                 </at-submenu>
+
+                <at-menu-item>
+                    <i class="icon icon-mail"></i>Уведомления
+                </at-menu-item>
 
             </at-menu>
         </div>

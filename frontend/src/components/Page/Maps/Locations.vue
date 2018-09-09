@@ -61,6 +61,7 @@
                 zoom: 2,
 
                 locationCircle: {},
+                locationUser: '',
                 choiseCoordMark: false,
                 addMarker: {
                     lat: '',
@@ -82,6 +83,7 @@
         },
         mounted: function () {
             this.getLocationCircle();
+            this.getLocationUser();
         },
         methods: {
             getLocationCircle: function () {
@@ -94,6 +96,23 @@
                             lng: this.locationCircle[0].lng,
                         }
                     });
+            },
+            getLocationUser: function () {
+                axios.get(`${this.$root.domain}/api/maps/getLocationUser`, {
+                    params: {
+                        id: this.$root.user.id,
+                    }
+                })
+                .then((response)=>{
+                    this.locationUser = response.data.locationUser;
+
+
+                    this.choiseCoordMark = true;
+                    this.addMarker.lat = this.locationUser.lat;
+                    this.addMarker.lng = this.locationUser.lng;
+                    this.coordsInput = `X:${this.addMarker.lng} Y:${this.addMarker.lat}`;
+
+                });
             },
 
             autoCoord: function () {

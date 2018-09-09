@@ -3,11 +3,11 @@
         "username": "root",
         "password": "1111",
         "database": "dsr_db",
-        "host": "127.0.0.1",
+        "host": "db",
         "port": "3306",
         "dialect": "mysql"
     },
-    "test": {
+    "docker": {
         "username": "root",
         "password": "1111",
         "database": "dsr_db",
@@ -15,7 +15,7 @@
         "port": "3306",
         "dialect": "mysql"
     },
-    "production": {
+    "local": {
         "username": "root",
         "password": "1111",
         "database": "dsr_db",

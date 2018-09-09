@@ -4,18 +4,18 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
       return queryInterface.bulkInsert('LocationCircles', [
           {
-              name: 'admin',
-              radius: '1000000',
-              lat: '12.3',
-              lng: '12.3',
+              name: 'africa',
+              radius: '3246340',
+              lat: '10',
+              lng: '10',
               createdAt: '1996-05-23',
               updatedAt: '1996-05-23',
           },
           {
-              name: 'admin',
-              radius: '1000000',
-              lat: '12.33',
-              lng: '12.22',
+              name: 'russia',
+              radius: '3630970',
+              lat: '49.0703',
+              lng: '92.5426',
               createdAt: '1996-05-23',
               updatedAt: '1996-05-23',
           },

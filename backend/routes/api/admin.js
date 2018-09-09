@@ -149,4 +149,18 @@ app.get('/sendLocationCircle', function(req, res, next) {
     });
 });
 
+app.get('/removeLocationCircle', function(req, res, next) {
+    const id = req.param('id');
+
+    models.LocationCircles.destroy({
+        where: {
+            id: id
+        }
+    }).then(() => {
+        res.status(status.OK.CODE).send({'message': 'Удалено!'});
+    });
+
+
+});
+
 module.exports = app;

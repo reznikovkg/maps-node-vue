@@ -7,13 +7,24 @@
             class="map-view"
             @click="choiseLocation"
         >
+            <!--маркеры-->
             <GmapMarker
                 v-for="(marker, index) in markers"
                 :key="index"
                 :position="{ lat: marker.lat, lng: marker.lng}"
                 :clickable="true"/>
 
+            <!--юзеры-->
+            <GmapMarker
+                    v-for="(locationUser, index) in locationUsers"
+                    :key="index"
+                    :label="'User'"
+                    :position="{ lat: locationUser.lat, lng: locationUser.lng}"
+                    :clickable="true"/>
+
+            <!--локации-->
             <gmap-circle
+                @click="choiseLocation"
                 v-for="(locCircle, index) in locationCircle"
                 :key="locCircle.id"
                 :bounds="circleBounds"
@@ -23,6 +34,8 @@
                 @radius_changed="updateCircle('radius', $event)"
                 @bounds_changed="updateCircle('bounds', $event)"></gmap-circle>
 
+
+            <!--новый маркер-->
             <GmapMarker
                 v-if="addMarkerFormActive"
                 :key="999"
@@ -30,6 +43,7 @@
                 :clickable="true"
                 :draggable="true"/>
 
+            <!--новая локация-->
             <gmap-circle
                 v-if="addLocationFormActive"
                 :bounds="circleBounds"
@@ -53,7 +67,7 @@
         <div class="form-add-location" :class="{ active: addMarkerFormActive }">
             <form action="">
                 <div class="form-control">
-                    <at-input v-model="addMarkerForm.name" placeholder="Название локации"></at-input>
+                    <at-input v-model="addMarkerForm.name" placeholder="Название маркера"></at-input>
                 </div>
                 <div class="form-control">
                     <at-input v-model="addMarkerForm.latLng" placeholder="Координаты (указать на карте)" disabled></at-input>
@@ -89,7 +103,7 @@
 
         <at-table
                 :columns="tableStruct"
-                :data="markers"
+                :data="locationCircle"
                 size="small"
                 sort
         ></at-table>
@@ -98,6 +112,7 @@
 
 <script>
     import axios from 'axios';
+    import {gmapApi} from 'vue2-google-maps';
 
     export default {
         name: "Locations",
@@ -110,9 +125,10 @@
                 map: null,
                 markers: [],
                 locationCircle: [],
+                locationUsers: [],
                 circleBounds: {},
                 center: {lat: -34.397, lng: 150.644},
-                zoom: 5,
+                zoom: 2,
 
                 addMarkerFormActive: false,
                 addLocationFormActive: false,
@@ -140,18 +156,86 @@
 
                 tableStruct: [
                     {
-                        title: 'Имя пользователя',
+                        title: 'Название локации',
                         key: 'name',
                         sortType: 'normal'
+                    },
+                    {
+                        title: 'Настройки',
+                        key: 'isActive',
+                        sortType: 'normal',
+                        render: (h, params) => {
+                            return h('div', [
+                                // h('at-button', {
+                                //     props: {
+                                //         size: 'small',
+                                //         value: params.item.isActivate
+                                //     },
+                                //     on: {
+                                //         click: () => {
+                                //             axios.get(`${this.$root.domain}/api/admin/activate`,{
+                                //                 params: {
+                                //                     token: this.$root.user.token,
+                                //                     username: params.item.username
+                                //                 }
+                                //             }).then((response)=>{
+                                //                 this.$root.viewNotify('success','Успешно', `Статус ${params.item.username} изменен.`);
+                                //             });
+                                //         }
+                                //     }
+                                // }, 'Редактировать'),
+                                h('at-button', {
+                                    props: {
+                                        size: 'small',
+                                    },
+                                    on: {
+                                        click: () => {
+                                            var loc = this.locationUsers;
+                                            var cir = params.item;
+
+                                            var rad = cir.radius;
+                                            cir = new google.maps.LatLng(cir.lat, cir.lng);
+
+                                            var inCircle = false;
+
+                                            loc.forEach((item, i, loc) => {
+                                                var point = new google.maps.LatLng(item.lat, item.lng);
+                                                var distance = google.maps.geometry.spherical.computeDistanceBetween(point, cir);
+                                                if (distance < rad) {
+                                                    inCircle = true;
+                                                }
+                                            });
+
+                                            if (inCircle) {
+                                                this.$Modal.confirm({
+                                                    title: 'Внимание!',
+                                                    content: 'Вы хотите удалить локацию с пользователями. Продолжить удаление?'
+                                                }).then(() => {
+                                                    this.okRemoveLocation(params.item);
+                                                }).catch(() => {
+                                                    this.$Message('Вы отменили удаление')
+                                                });
+                                            } else {
+                                                this.okRemoveLocation(params.item);
+                                            }
+                                        }
+                                    }
+                                }, 'Удалить')
+                            ])
+                        }
                     },
                 ],
                 lat: null,
                 lng: null,
             }
         },
+        computed: {
+            google: gmapApi
+        },
         mounted: function () {
             this.getMarkers();
             this.getLocationCircle();
+            this.getLocationUsers();
         },
         methods: {
             getMarkers: function () {
@@ -164,17 +248,40 @@
                         };
                     });
             },
+            okRemoveLocation: function(item) {
+                axios.get(`${this.$root.domain}/api/admin/removeLocationCircle`,{
+                    params: {
+                        token: this.$root.user.token,
+                        id: item.id
+                    }
+                }).then((response)=>{
+                    this.$root.viewNotify('success','Успешно', `Вы удалили локацию`);
+
+                    this.locationCircle.splice(
+                        this.locationCircle.indexOf(item),
+                        1);
+                });
+            },
+
             getLocationCircle: function () {
                 axios.get(`${this.$root.domain}/api/maps/allLocationCircle`)
                     .then((response)=>{
                         this.locationCircle = response.data.locationCircle;
                     });
             },
+            getLocationUsers: function () {
+                axios.get(`${this.$root.domain}/api/maps/allLocationUsers`)
+                    .then((response)=>{
+                        this.locationUsers = response.data.locationUsers;
+                    });
+            },
             addMarkerAction: function () {
-                this.addMarkerFormActive = true
+                this.addMarkerFormActive = !this.addMarkerFormActive;
+                this.addLocationFormActive = false;
             },
             addLocationAction: function () {
-                this.addLocationFormActive = true;
+                this.addLocationFormActive = !this.addLocationFormActive;
+                this.addMarkerFormActive = false;
             },
             choiseLocation: function (e) {
                 if (this.addMarkerFormActive) {
@@ -241,6 +348,7 @@
                     })
                         .then((response) => {
                             this.$root.viewNotify('success','Успешно', 'Информация обновлена');
+                            this.$router.push('/page/locations')
                         })
                         .catch((error) => {
                             this.$root.viewNotify('error','Ошибка', error);
