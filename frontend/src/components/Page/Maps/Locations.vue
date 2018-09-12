@@ -104,9 +104,11 @@
                     .then((response) => {
                         this.locationCircle = response.data.locationCircle;
 
-                        this.center = {
-                            lat: this.locationCircle[0].lat,
-                            lng: this.locationCircle[0].lng,
+                        if (this.locationCircle.length !== 0) {
+                            this.center = {
+                                lat: this.locationCircle[0].lat,
+                                lng: this.locationCircle[0].lng,
+                            }
                         }
                     });
             },

@@ -29,7 +29,7 @@ app.use(function (req, res, next) {
 });
 
 
-app.get('/get/users', function (req, res, next) {
+app.get('/getUsers', function (req, res, next) {
     models.Users.findAll()
         .then(users => {
             res.status(status.OK.CODE).send({users: users});
@@ -40,10 +40,27 @@ app.get('/get/users', function (req, res, next) {
         });
 });
 
-app.get('/edit', function (req, res, next) {
+app.get('/editUser', function (req, res, next) {
     const id = req.param('id');
     const username = req.param('username');
     const birthday = req.param('birthday');
+
+    models.Users.update({
+        username: username,
+        birthday: birthday
+    }, {
+        where: {
+            id: id
+        }
+    }).then(() => {
+        res.status(status.OK.CODE).send({message: 'Обновлено'});
+    }).catch(() => {
+        res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
+    });
+});
+
+app.get('/getUser', function (req, res, next) {
+    const id = req.param('id');
 
     models.Users.findOne({
         where: {
@@ -51,73 +68,64 @@ app.get('/edit', function (req, res, next) {
         }
     })
         .then(user => {
-            if ((username) && (birthday)) {
-                user.update({
-                    username: username,
-                    birthday: birthday
-                }).then(() => {
-                    res.status(status.OK.CODE)
-                        .send({message: 'Обновлено'});
-                })
-
-            } else {
-                res.status(status.OK.CODE)
-                    .send({user: user});
-            }
+            res.status(status.OK.CODE).send({user: user});
         })
         .catch(() => {
-            res.status(status.NOT_FOUND.CODE)
-                .send({message: status.NOT_FOUND.MESSAGE});
+            res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
         });
 });
 
 app.get('/activate', function (req, res, next) {
     const username = req.param('username');
 
-    if (username) {
-        models.Users.findOne({
-            where: {
-                username: username
-            }
-        })
-            .then(user => {
-                user.update({
-                    isActivate: !user.isActivate
-                }).then(() => {
-                    res.status(status.OK.CODE).send({message: 'Статус изменен!'});
-                });
-            })
-            .catch(() => {
-                res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
-            });
-    } else {
+    if (!username) {
         res.status(status.NO_CONTENT.CODE).send({message: 'Пользователь не указан'});
+        return;
     }
+
+    models.Users.findOne({
+        where: {
+            username: username
+        }
+    })
+        .then(user => {
+            user.update({
+                isActivate: !user.isActivate
+            }).then(() => {
+                res.status(status.OK.CODE).send({message: 'Статус изменен!'});
+            });
+        })
+        .catch(() => {
+            res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
+        });
 });
 
 app.get('/activateAdmin', function (req, res, next) {
     const username = req.param('username');
 
-    if (username) {
-        models.Users.findOne({
-            where: {
-                username: username
-            }
-        })
-            .then(user => {
-                user.update({
-                    isAdmin: !user.isAdmin
-                }).then(() => {
-                    res.status(status.OK.CODE).send({message: 'Права изменены!'});
-                });
-            })
-            .catch(() => {
-                res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
-            });
-    } else {
+    if (!username) {
         res.status(status.NO_CONTENT.CODE).send({message: 'Пользователь не указан'});
+        return;
     }
+
+    models.Users.findOne({
+        where: {
+            username: username
+        }
+    })
+    .then(user => {
+        user.update({
+            isAdmin: !user.isAdmin
+        }).then(() => {
+            res.status(status.OK.CODE).send({message: 'Права изменены!'});
+        });
+    })
+    .catch(() => {
+        res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
+    });
 });
+
+
 
 
 //MAPS
@@ -164,21 +172,20 @@ app.get('/removeLocationCircle', function (req, res, next) {
             id: id
         }
     }).then(() => {
+        if (idUsers) {
+            idUsers.forEach((item, i, idUsers)=>{
+                const user = models.Notifys.build({
+                    user: item,
+                    head: 'Ваша локация удалена',
+                    type: 'warning',
+                    text: 'Срочно смените своё местоположение'
+                });
 
-        idUsers.forEach((item, i, idUsers)=>{
-            const user = models.Notifys.build({
-                user: item,
-                head: 'Ваша локация удалена',
-                type: 'warning',
-                text: 'Срочно смените своё местоположение'
+                user.save();
             });
-
-            user.save();
-        });
-
+        }
         res.status(status.OK.CODE).send({message: status.OK.MESSAGE});
     });
-
 
 });
 

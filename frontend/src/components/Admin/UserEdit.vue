@@ -64,25 +64,19 @@
                     username: true,
                     birthday: true
                 }
-
-
             }
         },
         mounted: function () {
-            axios.get(`${this.$root.domain}/api/admin/edit`, {
+            axios.get(`${this.$root.domain}/api/admin/getUser`, {
                 params: {
                     token: this.$root.user.token,
                     id: this.$route.params.userId,
                 }
             })
                 .then((response) => {
-                    console.log(response.data);
                     this.form.username = response.data.user.username;
-
                     this.form.birthday = new Date(response.data.user.birthday);
-
                     this.form.birthdayText = `${this.form.birthday.getFullYear()}-${this.form.birthday.getMonth() + 1}-${this.form.birthday.getDate()}`;
-
                 })
                 .catch((error) => {
                     this.$root.viewNotify('error', 'Ошибка', error);
@@ -103,7 +97,7 @@
             },
             sendForm: function () {
                 if ((this.valid.username) && (this.valid.birthday)) {
-                    axios.get(`${this.$root.domain}/api/admin/edit`, {
+                    axios.get(`${this.$root.domain}/api/admin/editUser`, {
                         params: {
                             token: this.$root.user.token,
                             id: this.$route.params.userId,

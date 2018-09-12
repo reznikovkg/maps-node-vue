@@ -58,24 +58,26 @@
         },
         methods: {
             sendPass: function () {
-                if (this.valid.password2) {
-                    axios.get(`${this.$root.domain}/api/user/newPass`, {
-                        params: {
-                            token: this.$root.user.token,
-                            password: this.form.password,
-                        }
-                    })
-                        .then((response) => {
-                            this.$root.viewNotify('success', 'Успешно', 'Информация обновлена');
-                            this.$root.authenticated();
-                        })
-                        .catch((error) => {
-                            this.$root.viewNotify('error', 'Ошибка', 'Поля должны быть заполнены и совпадать');
-                        })
-                } else {
+                if (!this.valid.password2) {
                     this.$root.viewNotify('error', 'Ошибка', 'Поля должны быть заполнены и совпадать');
+                    return;
                 }
 
+                axios.get(`${this.$root.domain}/api/user/newPass`, {
+                    params: {
+                        token: this.$root.user.token,
+                        password: this.form.password,
+                    }
+                })
+                    .then((response) => {
+                        this.$root.viewNotify('success', 'Успешно', 'Информация обновлена');
+                        this.$root.authenticated();
+                        this.form.password = '';
+                        this.form.password2 = '';
+                    })
+                    .catch((error) => {
+                        this.$root.viewNotify('error', 'Ошибка', 'Поля должны быть заполнены и совпадать');
+                    })
             }
         },
         watch: {
@@ -87,6 +89,10 @@
                     this.valid.password = false;
                     this.status.password = 'error';
                 }
+
+                if (this.form.password === '') {
+                    this.status.password =  'default';
+                }
             },
             'form.password2': function () {
                 if ((this.form.password2) === (this.form.password)) {
@@ -95,6 +101,10 @@
                 } else {
                     this.valid.password2 = false;
                     this.status.password2 = 'error';
+                }
+
+                if (this.form.password2 === '') {
+                    this.status.password2 =  'default';
                 }
             },
         },

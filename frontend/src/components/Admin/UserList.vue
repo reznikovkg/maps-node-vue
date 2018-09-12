@@ -52,17 +52,7 @@
                                                     username: params.item.username
                                                 }
                                             }).then((response) => {
-
-                                                // var usersList = this.users;
-                                                // usersList.forEach((item, i, userList) => {
-                                                //     if (item.username == this.$root.user.username) {
-                                                //
-                                                //         this.users[this.users.indexOf(item)].isActivate = !this.users[this.users.indexOf(item)].isActivate;
-                                                //     }
-                                                // });
-
                                                 this.$root.viewNotify('success', 'Успешно', `Статус ${params.item.username} изменен.`);
-                                                this.reUpdate();
                                             });
                                         }
                                     }
@@ -124,7 +114,7 @@
         },
         methods: {
             usersUpdate: function () {
-                axios.get(`${this.$root.domain}/api/admin/get/users`, {
+                axios.get(`${this.$root.domain}/api/admin/getUsers`, {
                     params: {
                         token: this.$root.user.token
                     }

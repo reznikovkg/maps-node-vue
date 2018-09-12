@@ -34,6 +34,8 @@ app.get('/setLocationPoint', function (req, res, next) {
 
     const lat = req.param('lat');
     const lng = req.param('lng');
+
+
     models.LocationUsers.findOne({
         where: {
             user: user

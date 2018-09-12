@@ -22,9 +22,9 @@ app.get('/edit', function (req, res, next) {
             }).then(() => {
                 res.status(status.OK.CODE).send({message: 'Обновлено'});
             })
-                .catch(() => {
-                    res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
-                });
+            .catch(() => {
+                res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
+            });
         })
         .catch(() => {
             res.status(status.FORBIDDEN.CODE).send({message: status.FORBIDDEN.MESSAGE});
@@ -42,21 +42,18 @@ app.get('/newPass', function (req, res, next) {
         }
     })
         .then(user => {
-
             user.update({
                 password: password
             }).then(() => {
                 res.status(status.OK.CODE).send({message: 'Обновлено'});
-            })
-                .catch(() => {
-                    res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
-                });
+            }).catch(() => {
+                res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
+            });
         })
         .catch(() => {
             res.status(status.FORBIDDEN.CODE).send({message: status.FORBIDDEN.MESSAGE});
         });
 });
-
 
 
 //Notifys
@@ -85,7 +82,7 @@ app.get('/getAllNumber', function (req, res, next) {
         }
     })
         .then(notifys => {
-            res.status(status.OK.CODE).send({notifyNumber: notifys.length });
+            res.status(status.OK.CODE).send({notifyNumber: notifys.length});
         })
         .catch(() => {
             res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
@@ -101,6 +98,9 @@ app.get('/removeNotify', function (req, res, next) {
         }
     }).then(() => {
         res.status(status.OK.CODE).send({message: status.OK.MESSAGE});
+    })
+    .catch(() => {
+        res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
     });
 });
 

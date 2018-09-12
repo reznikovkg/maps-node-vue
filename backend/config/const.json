@@ -8,6 +8,10 @@
       "CODE": "204",
       "MESSAGE": "Нет содержимого"
     },
+    "FOUND": {
+      "CODE": "302",
+      "MESSAGE": "Найдено"
+    },
     "FORBIDDEN": {
       "CODE": "403",
       "MESSAGE": "Нет доступа"
