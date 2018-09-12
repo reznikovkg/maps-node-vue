@@ -35,6 +35,8 @@ import EditProfile from '../components/Page/EditProfile'
 import EditPassword from '../components/Page/EditPassword'
 
 import Map from '../components/Page/Maps/Map'
+import Notify from '../components/Page/Notify'
+
 import Locations from '../components/Page/Maps/Locations'
 
 import UserList from '../components/Admin/UserList'
@@ -73,6 +75,9 @@ export default new Router({
             path: '/page',
             name: 'page',
             component: Page,
+            meta: {
+                title: 'Добро пожаловать!'
+            },
             children: [
                 {
                     path: 'edit',
@@ -105,6 +110,14 @@ export default new Router({
                     component: Locations,
                     meta: {
                         title: 'Локации'
+                    }
+                },
+                {
+                    path: 'notify',
+                    name: 'notify',
+                    component: Notify,
+                    meta: {
+                        title: 'Уведомления'
                     }
                 },
 

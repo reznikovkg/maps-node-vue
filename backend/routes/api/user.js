@@ -57,6 +57,53 @@ app.get('/newPass', function (req, res, next) {
         });
 });
 
+
+
+//Notifys
+app.get('/getNotifys', function (req, res, next) {
+    const user = req.param('user');
+
+    models.Notifys.findAll({
+        where: {
+            user: user
+        }
+    })
+        .then(notifys => {
+            res.status(status.OK.CODE).send({notifys: notifys});
+        })
+        .catch(() => {
+            res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
+        });
+});
+
+app.get('/getAllNumber', function (req, res, next) {
+    const user = req.param('user');
+
+    models.Notifys.findAll({
+        where: {
+            user: user
+        }
+    })
+        .then(notifys => {
+            res.status(status.OK.CODE).send({notifyNumber: notifys.length });
+        })
+        .catch(() => {
+            res.status(status.NOT_FOUND.CODE).send({message: status.NOT_FOUND.MESSAGE});
+        });
+});
+
+app.get('/removeNotify', function (req, res, next) {
+    const id = req.param('id');
+
+    models.Notifys.destroy({
+        where: {
+            id: id
+        }
+    }).then(() => {
+        res.status(status.OK.CODE).send({message: status.OK.MESSAGE});
+    });
+});
+
 module.exports = app;
 
 

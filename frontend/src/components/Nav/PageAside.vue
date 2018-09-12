@@ -55,8 +55,14 @@
                     </at-menu-item>
                 </at-submenu>
 
-                <at-menu-item>
-                    <i class="icon icon-mail"></i>Уведомления
+                <at-menu-item
+                        :router="true"
+                        :to="{name : 'notify'}">
+                    <i class="icon icon-mail"></i>
+                    Уведомления
+                    <at-badge
+                            v-if="this.$root.notifyNumber"
+                            :value="this.$root.notifyNumber"></at-badge>
                 </at-menu-item>
 
             </at-menu>

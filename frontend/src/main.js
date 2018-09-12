@@ -9,8 +9,9 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 
 Vue.use(VueGoogleMaps, {
     load: {
-        key: 'AIzaSyAus17T4GYjhlS9cQ-iRWaE09t788ot3es',
-        libraries: 'places,geometry',
+        key: 'AIzaSyDf43lPdwlF98RCBsJOFNKOkoEjkwxb5Sc',
+        // key: 'AIzaSyAus17T4GYjhlS9cQ-iRWaE09t788ot3es',
+        libraries: 'places, geometry',
     },
 });
 
@@ -34,7 +35,8 @@ new Vue({
 
                 username: '',
                 birthday: ''
-            }
+            },
+            notifyNumber: 0
         }
     },
     components: {App},
@@ -78,6 +80,16 @@ new Vue({
                     this.user.birthday = '';
                     this.$router.push('/login');
                 })
+        },
+        getNotifyNumber: function () {
+            axios.get(`${this.domain}/api/user/getAllNumber`, {
+                params: {
+                    user: this.user.id,
+                }
+            })
+                .then((response) => {
+                    this.notifyNumber = response.data.notifyNumber;
+                })
         }
     },
     mounted: function () {
@@ -95,6 +107,7 @@ new Vue({
         '$route': {
             handler: function (val, oldVal) {
                 document.title = this.$route.meta.title;
+                this.getNotifyNumber()
             },
             deep: true,
             immediate: true

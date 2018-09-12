@@ -25,15 +25,19 @@
             <h3>Ваша локация</h3>
             <form action="">
                 <div class="form-control">
-                    <at-input v-model="coordsInput" placeholder="Ваши координаты" append-button prepend-button disabled>
-                        <template slot="prepend">
-                            <span @click="chooseCoord">Указать</span>
-                        </template>
-
+                    <at-input v-model="coordsInput" placeholder="Ваши координаты" append-button disabled>
                         <template slot="append">
                             <span @click="autoCoord">Авто</span>
                         </template>
                     </at-input>
+                </div>
+                <div class="form-control">
+                    <gmap-place-input :default-place="place"
+                                      :class="{ 'at-input at-input--success' : valid.place, 'at-input at-input--error' : !valid.place }"
+                                      className="at-input__original"
+                                      placeholder="Введите Ваше местоположение"
+                                      @place_changed="setPlace">
+                    </gmap-place-input>
                 </div>
                 <div>
                     <at-button
@@ -58,11 +62,13 @@
             return {
                 map: null,
                 markers: [],
-                center: {lat: -34.397, lng: 150.644},
+                center: {
+                    lat: -34.397,
+                    lng: 150.644
+                },
                 zoom: 2,
 
                 locationCircle: {},
-                locationUser: '',
                 choiseCoordMark: false,
                 addMarker: {
                     lat: '',
@@ -77,6 +83,12 @@
 
                 lat: null,
                 lng: null,
+
+                place: '',
+                latLng: {},
+                valid: {
+                    place: true
+                }
             }
         },
         computed: {
@@ -105,28 +117,24 @@
                     }
                 })
                     .then((response) => {
-                        this.locationUser = response.data.locationUser;
-
+                        var locationUser = response.data.locationUser;
 
                         this.choiseCoordMark = true;
-                        this.addMarker.lat = this.locationUser.lat;
-                        this.addMarker.lng = this.locationUser.lng;
+                        this.addMarker.lat = locationUser.lat;
+                        this.addMarker.lng = locationUser.lng;
                         this.coordsInput = `X:${this.addMarker.lng} Y:${this.addMarker.lat}`;
-
                     });
             },
 
             autoCoord: function () {
-                // this.cen1 = new google.maps.LatLng(this.cen1.lat, this.cen1.lng)
-                // this.cen2 = new google.maps.LatLng(this.cen2.lat, this.cen2.lng)
-                //
-                // this.distance = google.maps.geometry.spherical.computeDistanceBetween(this.cen1, this.cen2)
+                console.log('setAuto');
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition((position) => {
-                        this.pointUser.lat = position.coords.latitude;
-                        this.pointUser.lng = position.coords.longitude;
-                        console.log(position);
+                        this.addMarker.lat = position.coords.latitude;
+                        this.addMarker.lng = position.coords.longitude;
+                        console.log('setAutoOk');
                     });
+
                 } else {
                     this.$Notify({
                         title: 'Ошибка',
@@ -134,26 +142,35 @@
                         type: 'error'
                     })
                 }
-            },
-            chooseCoord: function () {
-                this.choiseCoordMark = true;
+
+                this.isValid();
             },
             sendCoord: function () {
-                axios.get(`${this.$root.domain}/api/maps/setLocationPoint`, {
-                    params: {
-                        token: this.$root.user.token,
-                        id: this.$root.user.id,
-                        lat: this.addMarker.lat,
-                        lng: this.addMarker.lng,
-                    }
-                })
-                    .then((response) => {
-                        this.$Notify({
-                            title: 'Успешно',
-                            message: 'Вы сменили локацию',
-                            type: 'success'
-                        })
-                    });
+                this.isValid();
+
+                if (this.valid.place) {
+                    axios.get(`${this.$root.domain}/api/maps/setLocationPoint`, {
+                        params: {
+                            token: this.$root.user.token,
+                            id: this.$root.user.id,
+                            lat: this.addMarker.lat,
+                            lng: this.addMarker.lng,
+                        }
+                    })
+                        .then((response) => {
+                            this.$Notify({
+                                title: 'Успешно',
+                                message: 'Вы сменили локацию',
+                                type: 'success'
+                            })
+                        });
+                } else {
+                    this.$Notify({
+                        title: 'Ошибка',
+                        message: 'Выбранное местоположение не входит в допустимы локации',
+                        type: 'error'
+                    })
+                }
             },
             mapClick: function (e) {
                 if (this.choiseCoordMark) {
@@ -161,10 +178,36 @@
                     this.addMarker.lng = e.latLng.lng();
 
                     this.coordsInput = `X:${this.addMarker.lng} Y:${this.addMarker.lat}`;
+                    this.isValid();
                 }
+            },
+            setPlaceText: function (place) {
+                this.place = place;
+            },
+            setPlace: function (place) {
+                this.addMarker = {
+                    lat: place.geometry.location.lat(),
+                    lng: place.geometry.location.lng(),
+                };
+                this.coordsInput = `X:${this.addMarker.lng} Y:${this.addMarker.lat}`;
+                this.valid.place = false;
+                this.isValid();
+            },
+            isValid: function () {
+                this.valid.place = false;
+                var choiuceLoc = new google.maps.LatLng(this.addMarker.lat, this.addMarker.lng);
+                var locs = this.locationCircle;
+
+                locs.forEach((item, i, locs) => {
+                    var locItem = new google.maps.LatLng(item.lat, item.lng);
+
+                    var dist = google.maps.geometry.spherical.computeDistanceBetween(choiuceLoc, locItem);
+                    if (dist < item.radius) {
+                        this.valid.place = true;
+                    }
+                });
             }
         }
-
     }
 </script>
 
