@@ -29,19 +29,19 @@ app.get('/login', function(req, res, next) {
                         user.update({
                             token: token,
                         }).then((user) => {
-                            res.status(status.OK.CODE).send({'token' : user.token});
+                            res.status(status.OK.CODE).send({token : user.token});
                         })
                     } else {
-                        res.status(status.NOT_FOUND.CODE).send({'error':'Неверный пароль'});
+                        res.status(status.NOT_FOUND.CODE).send({error:'Неверный пароль'});
                     }
                 } else {
-                    res.status(status.NOT_FOUND.CODE).send({'error':'Пользователь с именем '+ username +' не найден'});
+                    res.status(status.NOT_FOUND.CODE).send({error:'Пользователь с именем '+ username +' не найден'});
                 }
             }).catch((error) => {
 
             });
     } else {
-        res.status(status.INTERVAL_SERVER_ERROR.CODE).send({'error': 'Ошибка валидации'});
+        res.status(status.INTERVAL_SERVER_ERROR.CODE).send({error: 'Ошибка валидации'});
     }
 
 });
@@ -64,10 +64,10 @@ app.get('/register', function(req, res, next) {
         });
 
         user.save().then(() => {
-            res.status(200).send({'message': 'Успех'});
+            res.status(status.OK.CODE).send({message: status.OK.MESSAGE});
         });
     } else {
-        res.status(500).send({'error': 'Ошибка валидации'});
+        res.status(status.INTERVAL_SERVER_ERROR.CODE).send({error: 'Ошибка валидации'});
     }
 
 });
@@ -87,9 +87,8 @@ app.get('/connect', function(req, res, next) {
                     'username' : user.username,
                     'birthday' : user.birthday
                 });
-
             } else {
-                res.status(500).send({'error':'Недействительный токен'});
+                res.status(status.INTERVAL_SERVER_ERROR.CODE).send({error: 'Недействительный токен'});
             }
         });
 });
@@ -102,12 +101,12 @@ app.get('/uniqueUsername', function(req, res, next) {
         } })
         .then(user => {
             if (user) {
-                res.status(500).send({'error':'Имя занято'});
+                res.status(status.INTERVAL_SERVER_ERROR.CODE).send({error: 'Имя занято'});
             } else {
-                res.status(200).send({'message':'Имя свободно'});
+                res.status(status.OK.CODE).send({message: status.OK.MESSAGE});
             }
         }).catch(()=>{
-            res.status(200).send({'message':'Имя свободно'});
+            res.status(status.OK.CODE).send({message: status.OK.MESSAGE});
         });
 });
 

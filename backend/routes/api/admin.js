@@ -16,12 +16,12 @@ app.use(function (req, res, next) {
                 next();
             } else {
                 res.status(status.FORBIDDEN.CODE)
-                    .send({'message':status.FORBIDDEN.MESSAGE});
+                    .send({message:status.FORBIDDEN.MESSAGE});
             }
         })
         .catch(()=>{
             res.status(status.INTERVAL_SERVER_ERROR.CODE).send({
-                'message':status.INTERVAL_SERVER_ERROR.MESSAGE
+                message:status.INTERVAL_SERVER_ERROR.MESSAGE
             });
         });
 });
@@ -30,11 +30,11 @@ app.use(function (req, res, next) {
 app.get('/get/users', function(req, res, next) {
     models.Users.findAll()
         .then(users => {
-            res.status(status.OK.CODE).send({'users':users});
+            res.status(status.OK.CODE).send({users:users});
         })
         .catch(()=>{
             res.status(status.NOT_FOUND.CODE)
-                .send({'message':status.NOT_FOUND.MESSAGE});
+                .send({message:status.NOT_FOUND.MESSAGE});
         });
 });
 
@@ -53,17 +53,17 @@ app.get('/edit', function(req, res, next) {
                     birthday: birthday
                 }).then(() => {
                     res.status(status.OK.CODE)
-                        .send({'message':'Обновлено'});
+                        .send({message:'Обновлено'});
                 })
 
             } else {
                 res.status(status.OK.CODE)
-                    .send({'user':user});
+                    .send({user:user});
             }
         })
         .catch(()=>{
             res.status(status.NOT_FOUND.CODE)
-                .send({'message':status.NOT_FOUND.MESSAGE});
+                .send({message:status.NOT_FOUND.MESSAGE});
         });
 });
 
@@ -78,14 +78,14 @@ app.get('/activate', function(req, res, next) {
                 user.update({
                     isActivate: !user.isActivate
                 }).then(() => {
-                    res.status(status.OK.CODE).send({'message': 'Статус изменен!'});
+                    res.status(status.OK.CODE).send({message: 'Статус изменен!'});
                 });
             })
             .catch(()=>{
-                res.status(status.NOT_FOUND.CODE).send({'message':status.NOT_FOUND.MESSAGE});
+                res.status(status.NOT_FOUND.CODE).send({message:status.NOT_FOUND.MESSAGE});
             });
     } else {
-        res.status(status.NO_CONTENT.CODE).send({'message':'Пользователь не указан'});
+        res.status(status.NO_CONTENT.CODE).send({message:'Пользователь не указан'});
     }
 });
 
@@ -100,14 +100,14 @@ app.get('/activateAdmin', function(req, res, next) {
                 user.update({
                     isAdmin: !user.isAdmin
                 }).then(() => {
-                    res.status(status.OK.CODE).send({'message': 'Права изменены!'});
+                    res.status(status.OK.CODE).send({message: 'Права изменены!'});
                 });
             })
             .catch(()=>{
-                res.status(status.NOT_FOUND.CODE).send({'message':status.NOT_FOUND.MESSAGE});
+                res.status(status.NOT_FOUND.CODE).send({message:status.NOT_FOUND.MESSAGE});
             });
     } else {
-        res.status(status.NO_CONTENT.CODE).send({'message':'Пользователь не указан'});
+        res.status(status.NO_CONTENT.CODE).send({message:'Пользователь не указан'});
     }
 });
 
@@ -127,7 +127,7 @@ app.get('/sendMarker', function(req, res, next) {
     });
 
     marker.save().then(() => {
-        res.status(200).send({'message': 'Успех'});
+        res.status(status.OK.CODE).send({message: status.OK.MESSAGE});
     });
 });
 
@@ -145,7 +145,7 @@ app.get('/sendLocationCircle', function(req, res, next) {
     });
 
     LocationCircle.save().then(() => {
-        res.status(200).send({'message': 'Успех'});
+        res.status(status.OK.CODE).send({message: status.OK.MESSAGE});
     });
 });
 
@@ -157,7 +157,7 @@ app.get('/removeLocationCircle', function(req, res, next) {
             id: id
         }
     }).then(() => {
-        res.status(status.OK.CODE).send({'message': 'Удалено!'});
+        res.status(status.OK.CODE).send({message: status.OK.MESSAGE});
     });
 
 

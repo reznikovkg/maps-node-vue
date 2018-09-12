@@ -10,14 +10,14 @@
             <!--маркеры-->
             <GmapMarker
                 v-for="(marker, index) in markers"
-                :key="index"
+                :key="marker.name"
                 :position="{ lat: marker.lat, lng: marker.lng}"
                 :clickable="true"/>
 
             <!--юзеры-->
             <GmapMarker
                     v-for="(locationUser, index) in locationUsers"
-                    :key="index"
+                    :key="locationUser.user"
                     :label="'User'"
                     :position="{ lat: locationUser.lat, lng: locationUser.lng}"
                     :clickable="true"/>
@@ -38,7 +38,6 @@
             <!--новый маркер-->
             <GmapMarker
                 v-if="addMarkerFormActive"
-                :key="999"
                 :position="{ lat: addMarker.lat, lng: addMarker.lng}"
                 :clickable="true"
                 :draggable="true"/>
@@ -55,8 +54,7 @@
                 ref="gmapcircle"
 
                 :options="{editable: true}"
-                @radius_changed="updateCircle('radius', $event)"
-                @bounds_changed="updateCircle('bounds', $event)"></gmap-circle>
+            ></gmap-circle>
         </GmapMap>
 
 
@@ -64,6 +62,7 @@
             <at-button @click="addMarkerAction" size="small" icon="icon-plus" type="primary">Добавить маркер</at-button>
             <at-button @click="addLocationAction" size="small" icon="icon-plus" type="primary">Добавить локацию</at-button>
         </div>
+
         <div class="form-add-location" :class="{ active: addMarkerFormActive }">
             <form action="">
                 <div class="form-control">
@@ -76,8 +75,6 @@
             </form>
             <at-button @click="sendFormMarker" size="small" icon="icon-save" type="primary">Сохранить</at-button>
         </div>
-
-
 
 
 
@@ -132,7 +129,10 @@
 
                 addMarkerFormActive: false,
                 addLocationFormActive: false,
-                addMarker: {},
+                addMarker: {
+                    lat: 0,
+                    lng: 0
+                },
                 addMarkerForm: {
                     name: '',
 
@@ -163,27 +163,8 @@
                     {
                         title: 'Настройки',
                         key: 'isActive',
-                        sortType: 'normal',
                         render: (h, params) => {
                             return h('div', [
-                                // h('at-button', {
-                                //     props: {
-                                //         size: 'small',
-                                //         value: params.item.isActivate
-                                //     },
-                                //     on: {
-                                //         click: () => {
-                                //             axios.get(`${this.$root.domain}/api/admin/activate`,{
-                                //                 params: {
-                                //                     token: this.$root.user.token,
-                                //                     username: params.item.username
-                                //                 }
-                                //             }).then((response)=>{
-                                //                 this.$root.viewNotify('success','Успешно', `Статус ${params.item.username} изменен.`);
-                                //             });
-                                //         }
-                                //     }
-                                // }, 'Редактировать'),
                                 h('at-button', {
                                     props: {
                                         size: 'small',

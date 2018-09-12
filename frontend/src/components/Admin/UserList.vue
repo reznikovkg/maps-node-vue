@@ -4,6 +4,7 @@
             <h3>Список пользователей</h3>
 
             <at-table
+                    v-if="users"
                     :columns="tableStruct"
                     :data="users"
                     size="small"
@@ -24,12 +25,10 @@
                     {
                         title: 'id',
                         key: 'id',
-                        sortType: 'normal'
                     },
                     {
                         title: 'Имя пользователя',
                         key: 'username',
-                        sortType: 'normal'
                     },
                     {
                         title: 'Email',
@@ -37,8 +36,7 @@
                     },
                     {
                         title: 'Активен',
-                        key: 'isActive',
-                        sortType: 'normal',
+                        key: 'isActivate',
                         render: (h, params) => {
                             return h('div', [
                                 h('at-switch', {
@@ -54,7 +52,17 @@
                                                     username: params.item.username
                                                 }
                                             }).then((response)=>{
+
+                                                // var usersList = this.users;
+                                                // usersList.forEach((item, i, userList) => {
+                                                //     if (item.username == this.$root.user.username) {
+                                                //
+                                                //         this.users[this.users.indexOf(item)].isActivate = !this.users[this.users.indexOf(item)].isActivate;
+                                                //     }
+                                                // });
+
                                                 this.$root.viewNotify('success','Успешно', `Статус ${params.item.username} изменен.`);
+                                                this.reUpdate();
                                             });
                                         }
                                     }
@@ -65,7 +73,6 @@
                     {
                         title: 'Админ',
                         key: 'isAdmin',
-                        sortType: 'normal',
                         render: (h, params) => {
                             return h('div', [
                                 h('at-switch', {
@@ -113,28 +120,34 @@
             }
         },
         mounted: function () {
-            axios.get(`${this.$root.domain}/api/admin/get/users`,{
-                params: {
-                    token: this.$root.user.token
-                }
-            })
-                .then((response) => {
-                    this.users = response.data.users;
-
-                })
-                .catch((error) => {
-                    this.$root.viewNotify('error','Ошибка', error.response.data.error);
-                })
+            this.usersUpdate();
         },
         methods: {
-            // this.$Modal.prompt({
-            //     title: 'Tips',
-            //     content: 'Please input your email:'
-            //     }).then((data) => {
-            //         this.$Message(`Click 'Confirm' Button, input value is ${data.value}`)
-            //     }).catch(() => {
-            //         this.$Message('Click \'Cancel\' Button')
-            //     })
+            usersUpdate: function () {
+                axios.get(`${this.$root.domain}/api/admin/get/users`,{
+                    params: {
+                        token: this.$root.user.token
+                    }
+                })
+                    .then((response) => {
+                        this.users = response.data.users;
+
+                        var usersList = this.users;
+                        usersList.forEach((item, i, userList) => {
+                            if (item.username == this.$root.user.username) {
+                                this.users.splice( this.users.indexOf(item), 1 );
+                            }
+                        });
+
+                    })
+                    .catch((error) => {
+                        this.$root.viewNotify('error','Ошибка', error.response.data.error);
+                    })
+            },
+            reUpdate: function () {
+                this.users = null;
+                this.usersUpdate();
+            }
         }
     }
 </script>

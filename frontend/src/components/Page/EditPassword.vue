@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <div class="edit-profile">
-            <h3>Сменить пароль (not work)</h3>
+            <h3>Сменить пароль</h3>
             <form>
 
                 <div class="form-control">
@@ -9,6 +9,7 @@
                     <at-input
                             v-model="form.password"
                             :status="status.password"
+                            type="password"
                             placeholder="Пароль">
                     </at-input>
                 </div>
@@ -18,12 +19,13 @@
                     <at-input
                             v-model="form.password2"
                             :status="status.password2"
+                            type="password"
                             placeholder="Повторите пароль">
                     </at-input>
                 </div>
 
                 <div class="form-control">
-                    <at-button :type="status.button">Сохранить</at-button>
+                    <at-button @click="sendPass" :type="status.button">Сохранить</at-button>
                 </div>
 
             </form>
@@ -32,6 +34,8 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     export default {
         name: "EditProfile",
         data () {
@@ -46,8 +50,30 @@
                     button: 'default'
                 },
                 valid: {
-                    password: true,
-                    password2: true
+                    password: false,
+                    password2: false
+                }
+
+            }
+        },
+        methods: {
+            sendPass: function () {
+                if (this.valid.password2) {
+                    axios.get(`${this.$root.domain}/api/user/newPass`, {
+                        params: {
+                            token: this.$root.user.token,
+                            password: this.form.password,
+                        }
+                    })
+                        .then((response) => {
+                            this.$root.viewNotify('success','Успешно', 'Информация обновлена');
+                            this.$root.authenticated();
+                        })
+                        .catch((error) => {
+                            this.$root.viewNotify('error','Ошибка', 'Поля должны быть заполнены и совпадать');
+                        })
+                } else {
+                    this.$root.viewNotify('error','Ошибка', 'Поля должны быть заполнены и совпадать');
                 }
 
             }
