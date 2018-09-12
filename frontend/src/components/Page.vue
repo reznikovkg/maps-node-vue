@@ -20,7 +20,7 @@
         components: {
             PageAside, PageNavbar,
         },
-        data () {
+        data() {
             return {
                 form: {
                     username: '',
@@ -28,9 +28,7 @@
                 }
             }
         },
-        methods: {
-
-        },
+        methods: {},
         watch: {
             '$root.user': {
                 handler: function (val, oldVal) {
@@ -51,6 +49,7 @@
     .animate-content-enter-active, .animate-content-leave-active {
         transition: .3s ease-in-out;
     }
+
     .animate-content-enter, .animate-content-leave-to {
         opacity: 0;
         transform: translateX(500px);
@@ -66,7 +65,7 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(@colorBlue,@colorPurple);
+        background: linear-gradient(@colorBlue, @colorPurple);
         overflow: hidden;
 
         & .content-field {

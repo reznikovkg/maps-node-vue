@@ -26,7 +26,6 @@ Vue.use(VueCookie);
 // });
 
 
-
 import Auth from '../components/Auth'
 import Login from '../components/Auth/Login'
 import Register from '../components/Auth/Register'
@@ -43,104 +42,104 @@ import UserEdit from '../components/Admin/UserEdit'
 import AdminLocations from '../components/Admin/Locations'
 
 export default new Router({
-  mode: 'history',
-  routes: [
-    {
-        path: '/',
-        redirect: 'login',
-        name: 'auth',
-        component: Auth,
-        children: [
-            {
-                path: 'login',
-                name: 'auth-login',
-                component: Login,
-                meta: {
-                    title: 'Авторизация'
-                }
-            },
-            {
-                path: 'register',
-                name: 'auth-register',
-                component: Register,
-                meta: {
-                    title: 'Регистрация'
-                }
-            },
-        ]
-    },
+    mode: 'history',
+    routes: [
+        {
+            path: '/',
+            redirect: 'login',
+            name: 'auth',
+            component: Auth,
+            children: [
+                {
+                    path: 'login',
+                    name: 'auth-login',
+                    component: Login,
+                    meta: {
+                        title: 'Авторизация'
+                    }
+                },
+                {
+                    path: 'register',
+                    name: 'auth-register',
+                    component: Register,
+                    meta: {
+                        title: 'Регистрация'
+                    }
+                },
+            ]
+        },
 
-    {
-        path: '/page',
-        name: 'page',
-        component: Page,
-        children: [
-            {
-                path: 'edit',
-                name: 'edit-profile',
-                component: EditProfile,
-                meta: {
-                    title: 'Редактировать профиль'
-                }
-            },
-            {
-                path: 'edit-password',
-                name: 'edit-password',
-                component: EditPassword,
-                meta: {
-                    title: 'Сменить пароль'
-                }
-            },
+        {
+            path: '/page',
+            name: 'page',
+            component: Page,
+            children: [
+                {
+                    path: 'edit',
+                    name: 'edit-profile',
+                    component: EditProfile,
+                    meta: {
+                        title: 'Редактировать профиль'
+                    }
+                },
+                {
+                    path: 'edit-password',
+                    name: 'edit-password',
+                    component: EditPassword,
+                    meta: {
+                        title: 'Сменить пароль'
+                    }
+                },
 
-            {
-                path: 'maps',
-                name: 'maps-map',
-                component: Map,
-                meta: {
-                    title: 'Карта'
-                }
-            },
-            {
-                path: 'locations',
-                name: 'maps-locations',
-                component: Locations,
-                meta: {
-                    title: 'Локации'
-                }
-            },
+                {
+                    path: 'maps',
+                    name: 'maps-map',
+                    component: Map,
+                    meta: {
+                        title: 'Карта'
+                    }
+                },
+                {
+                    path: 'locations',
+                    name: 'maps-locations',
+                    component: Locations,
+                    meta: {
+                        title: 'Локации'
+                    }
+                },
 
-            //admin
-            {
-                path: 'user-list',
-                name: 'user-list',
-                component: UserList,
-                meta: {
-                    title: 'Список пользователей'
-                }
-            },
-            {
-                path: 'user-edit/:userId',
-                name: 'user-edit',
-                component: UserEdit,
-                meta: {
-                    title: 'Редактировать пользователя'
-                }
-            },
-            {
-                path: 'admin-locations',
-                name: 'admin-locations',
-                component: AdminLocations,
-                meta: {
-                    title: 'Локации'
-                }
-            },
+                //admin
+                {
+                    path: 'user-list',
+                    name: 'user-list',
+                    component: UserList,
+                    meta: {
+                        title: 'Список пользователей'
+                    }
+                },
+                {
+                    path: 'user-edit/:userId',
+                    name: 'user-edit',
+                    component: UserEdit,
+                    meta: {
+                        title: 'Редактировать пользователя'
+                    }
+                },
+                {
+                    path: 'admin-locations',
+                    name: 'admin-locations',
+                    component: AdminLocations,
+                    meta: {
+                        title: 'Локации'
+                    }
+                },
 
-        ]
-    },
-    // {
-    //     path: '/register',
-    //     name: 'Auth-register',
-    //     component: Register
-    // },
-  ]
+            ]
+        },
+        // {
+        //     path: '/register',
+        //     name: 'Auth-register',
+        //     component: Register
+        // },
+    ]
 })

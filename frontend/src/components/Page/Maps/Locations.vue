@@ -7,18 +7,18 @@
                 class="map-view"
         >
             <gmap-circle
-                @click="mapClick"
-                v-for="(locCircle, index) in locationCircle"
-                :key="locCircle.id"
-                :center="{lat:locCircle.lat, lng:locCircle.lng}"
-                :radius="locCircle.radius"
-                :options="{editable: false}"
-                @radius_changed="updateCircle('radius', $event)"
-                @bounds_changed="updateCircle('bounds', $event)"></gmap-circle>
+                    @click="mapClick"
+                    v-for="(locCircle, index) in locationCircle"
+                    :key="locCircle.id"
+                    :center="{lat:locCircle.lat, lng:locCircle.lng}"
+                    :radius="locCircle.radius"
+                    :options="{editable: false}"
+                    @radius_changed="updateCircle('radius', $event)"
+                    @bounds_changed="updateCircle('bounds', $event)"></gmap-circle>
 
             <GmapMarker
-                v-if="choiseCoordMark"
-                :position="{ lat: addMarker.lat, lng: addMarker.lng}"/>
+                    v-if="choiseCoordMark"
+                    :position="{ lat: addMarker.lat, lng: addMarker.lng}"/>
         </GmapMap>
 
         <div class="location-control">
@@ -40,7 +40,8 @@
                             v-if="addMarker.lat"
                             @click="sendCoord"
                             type="primary"
-                            size="small">Сохранить</at-button>
+                            size="small">Сохранить
+                    </at-button>
                 </div>
             </form>
         </div>
@@ -53,7 +54,7 @@
 
     export default {
         name: "Locations",
-        data () {
+        data() {
             return {
                 map: null,
                 markers: [],
@@ -88,7 +89,7 @@
         methods: {
             getLocationCircle: function () {
                 axios.get(`${this.$root.domain}/api/maps/allLocationCircle`)
-                    .then((response)=>{
+                    .then((response) => {
                         this.locationCircle = response.data.locationCircle;
 
                         this.center = {
@@ -103,16 +104,16 @@
                         id: this.$root.user.id,
                     }
                 })
-                .then((response)=>{
-                    this.locationUser = response.data.locationUser;
+                    .then((response) => {
+                        this.locationUser = response.data.locationUser;
 
 
-                    this.choiseCoordMark = true;
-                    this.addMarker.lat = this.locationUser.lat;
-                    this.addMarker.lng = this.locationUser.lng;
-                    this.coordsInput = `X:${this.addMarker.lng} Y:${this.addMarker.lat}`;
+                        this.choiseCoordMark = true;
+                        this.addMarker.lat = this.locationUser.lat;
+                        this.addMarker.lng = this.locationUser.lng;
+                        this.coordsInput = `X:${this.addMarker.lng} Y:${this.addMarker.lat}`;
 
-                });
+                    });
             },
 
             autoCoord: function () {
@@ -138,7 +139,7 @@
                 this.choiseCoordMark = true;
             },
             sendCoord: function () {
-                axios.get(`${this.$root.domain}/api/maps/setLocationPoint`,{
+                axios.get(`${this.$root.domain}/api/maps/setLocationPoint`, {
                     params: {
                         token: this.$root.user.token,
                         id: this.$root.user.id,
@@ -146,7 +147,7 @@
                         lng: this.addMarker.lng,
                     }
                 })
-                    .then((response)=>{
+                    .then((response) => {
                         this.$Notify({
                             title: 'Успешно',
                             message: 'Вы сменили локацию',
@@ -171,11 +172,11 @@
     #map, .vue-google-map {
         height: 500px;
     }
+
     .map-view {
         width: 100%;
         height: 500px;
     }
-
 
     .location-control {
         & h3 {

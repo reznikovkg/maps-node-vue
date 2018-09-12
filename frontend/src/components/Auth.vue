@@ -5,11 +5,13 @@
                 <at-menu-item
                         :router="true"
                         :to="{name: 'auth-login'}"
-                        ><i class="icon icon-log-in"></i>Авторизация</at-menu-item>
+                ><i class="icon icon-log-in"></i>Авторизация
+                </at-menu-item>
                 <at-menu-item
                         :router="true"
                         :to="{name: 'auth-register'}"
-                        ><i class="icon icon-user-plus"></i>Регистрация</at-menu-item>
+                ><i class="icon icon-user-plus"></i>Регистрация
+                </at-menu-item>
             </at-menu>
 
             <transition appear name="animate-auth" mode="out-in">
@@ -24,14 +26,10 @@
 
     export default {
         name: "auth",
-        data () {
-            return {
-
-            }
+        data() {
+            return {}
         },
-        methods: {
-
-        },
+        methods: {},
         watch: {
             '$root.user': {
                 handler: function (val, oldVal) {
@@ -50,10 +48,12 @@
     .animate-auth-enter-active, .animate-auth-leave-active {
         transition: .3s ease-in-out;
     }
+
     .animate-auth-enter {
         opacity: 0;
         transform: translateX(500px);
     }
+
     .animate-auth-leave-to {
         opacity: 0;
         transform: translateX(-500px);
@@ -71,7 +71,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(@colorBlue,@colorPurple);
+        background: linear-gradient(@colorBlue, @colorPurple);
         overflow: hidden;
 
         display: flex;
@@ -97,7 +97,6 @@
                     &:last-child {
                         margin-bottom: 0;
                     }
-
 
                     & h4 {
                         text-align: center;

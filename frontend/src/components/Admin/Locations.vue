@@ -1,18 +1,18 @@
 <template>
     <div class="content">
         <GmapMap
-            :center="center"
-            :zoom="zoom"
-            map-type-id="terrain"
-            class="map-view"
-            @click="choiseLocation"
+                :center="center"
+                :zoom="zoom"
+                map-type-id="terrain"
+                class="map-view"
+                @click="choiseLocation"
         >
             <!--маркеры-->
             <GmapMarker
-                v-for="(marker, index) in markers"
-                :key="marker.name"
-                :position="{ lat: marker.lat, lng: marker.lng}"
-                :clickable="true"/>
+                    v-for="(marker, index) in markers"
+                    :key="marker.name"
+                    :position="{ lat: marker.lat, lng: marker.lng}"
+                    :clickable="true"/>
 
             <!--юзеры-->
             <GmapMarker
@@ -24,43 +24,44 @@
 
             <!--локации-->
             <gmap-circle
-                @click="choiseLocation"
-                v-for="(locCircle, index) in locationCircle"
-                :key="locCircle.id"
-                :bounds="circleBounds"
-                :center="{lat:locCircle.lat, lng:locCircle.lng}"
-                :radius="locCircle.radius"
-                :options="{editable: false}"
-                @radius_changed="updateCircle('radius', $event)"
-                @bounds_changed="updateCircle('bounds', $event)"></gmap-circle>
+                    @click="choiseLocation"
+                    v-for="(locCircle, index) in locationCircle"
+                    :key="locCircle.id"
+                    :bounds="circleBounds"
+                    :center="{lat:locCircle.lat, lng:locCircle.lng}"
+                    :radius="locCircle.radius"
+                    :options="{editable: false}"
+                    @radius_changed="updateCircle('radius', $event)"
+                    @bounds_changed="updateCircle('bounds', $event)"></gmap-circle>
 
 
             <!--новый маркер-->
             <GmapMarker
-                v-if="addMarkerFormActive"
-                :position="{ lat: addMarker.lat, lng: addMarker.lng}"
-                :clickable="true"
-                :draggable="true"/>
+                    v-if="addMarkerFormActive"
+                    :position="{ lat: addMarker.lat, lng: addMarker.lng}"
+                    :clickable="true"
+                    :draggable="true"/>
 
             <!--новая локация-->
             <gmap-circle
-                v-if="addLocationFormActive"
-                :bounds="circleBounds"
-                :center="{lat:addLocationForm.lat, lng:addLocationForm.lng}"
-                :radius="addLocationForm.radius"
-                :draggable="true"
-                :style="{'color': 'red'}"
+                    v-if="addLocationFormActive"
+                    :bounds="circleBounds"
+                    :center="{lat:addLocationForm.lat, lng:addLocationForm.lng}"
+                    :radius="addLocationForm.radius"
+                    :draggable="true"
+                    :style="{'color': 'red'}"
 
-                ref="gmapcircle"
+                    ref="gmapcircle"
 
-                :options="{editable: true}"
+                    :options="{editable: true}"
             ></gmap-circle>
         </GmapMap>
 
 
         <div class="nav-locations">
             <at-button @click="addMarkerAction" size="small" icon="icon-plus" type="primary">Добавить маркер</at-button>
-            <at-button @click="addLocationAction" size="small" icon="icon-plus" type="primary">Добавить локацию</at-button>
+            <at-button @click="addLocationAction" size="small" icon="icon-plus" type="primary">Добавить локацию
+            </at-button>
         </div>
 
         <div class="form-add-location" :class="{ active: addMarkerFormActive }">
@@ -69,13 +70,13 @@
                     <at-input v-model="addMarkerForm.name" placeholder="Название маркера"></at-input>
                 </div>
                 <div class="form-control">
-                    <at-input v-model="addMarkerForm.latLng" placeholder="Координаты (указать на карте)" disabled></at-input>
+                    <at-input v-model="addMarkerForm.latLng" placeholder="Координаты (указать на карте)"
+                              disabled></at-input>
                 </div>
 
             </form>
             <at-button @click="sendFormMarker" size="small" icon="icon-save" type="primary">Сохранить</at-button>
         </div>
-
 
 
         <div class="form-add-location" :class="{ active: addLocationFormActive }">
@@ -84,18 +85,13 @@
                     <at-input v-model="addLocationForm.name" placeholder="Название локации"></at-input>
                 </div>
                 <div class="form-control">
-                    <at-input v-model="addLocationForm.latLngRad" placeholder="Координаты (указать на карте)" disabled></at-input>
+                    <at-input v-model="addLocationForm.latLngRad" placeholder="Координаты (указать на карте)"
+                              disabled></at-input>
                 </div>
 
             </form>
             <at-button @click="sendFormLocation" size="small" icon="icon-save" type="primary">Сохранить</at-button>
         </div>
-
-
-
-
-
-
 
 
         <at-table
@@ -113,7 +109,7 @@
 
     export default {
         name: "Locations",
-        data () {
+        data() {
             return {
                 reportedCenter: {
                     lat: 48.8538302,
@@ -150,8 +146,6 @@
                     lng: 10,
                     radius: 10000
                 },
-
-
 
 
                 tableStruct: [
@@ -221,7 +215,7 @@
         methods: {
             getMarkers: function () {
                 axios.get(`${this.$root.domain}/api/maps/allMarkers`)
-                    .then((response)=>{
+                    .then((response) => {
                         this.markers = response.data.markers;
                         this.center = {
                             lat: this.markers[0].lat,
@@ -229,14 +223,14 @@
                         };
                     });
             },
-            okRemoveLocation: function(item) {
-                axios.get(`${this.$root.domain}/api/admin/removeLocationCircle`,{
+            okRemoveLocation: function (item) {
+                axios.get(`${this.$root.domain}/api/admin/removeLocationCircle`, {
                     params: {
                         token: this.$root.user.token,
                         id: item.id
                     }
-                }).then((response)=>{
-                    this.$root.viewNotify('success','Успешно', `Вы удалили локацию`);
+                }).then((response) => {
+                    this.$root.viewNotify('success', 'Успешно', `Вы удалили локацию`);
 
                     this.locationCircle.splice(
                         this.locationCircle.indexOf(item),
@@ -246,13 +240,13 @@
 
             getLocationCircle: function () {
                 axios.get(`${this.$root.domain}/api/maps/allLocationCircle`)
-                    .then((response)=>{
+                    .then((response) => {
                         this.locationCircle = response.data.locationCircle;
                     });
             },
             getLocationUsers: function () {
                 axios.get(`${this.$root.domain}/api/maps/allLocationUsers`)
-                    .then((response)=>{
+                    .then((response) => {
                         this.locationUsers = response.data.locationUsers;
                     });
             },
@@ -277,10 +271,9 @@
                 }
 
                 if (this.addLocationFormActive) {
-                    this.addLocationForm.lat= e.latLng.lat();
-                    this.addLocationForm.lng= e.latLng.lng();
+                    this.addLocationForm.lat = e.latLng.lat();
+                    this.addLocationForm.lng = e.latLng.lng();
                     this.addLocationForm.radius = 10000;
-
 
 
                     this.addLocationForm.latLngRad = `Локация обозначена`;
@@ -298,10 +291,10 @@
                         }
                     })
                         .then((response) => {
-                            this.$root.viewNotify('success','Успешно', 'Информация обновлена');
+                            this.$root.viewNotify('success', 'Успешно', 'Информация обновлена');
                         })
                         .catch((error) => {
-                            this.$root.viewNotify('error','Ошибка', error);
+                            this.$root.viewNotify('error', 'Ошибка', error);
                         })
                 } else {
                     // if (!this.valid.username) {
@@ -328,11 +321,11 @@
                         }
                     })
                         .then((response) => {
-                            this.$root.viewNotify('success','Успешно', 'Информация обновлена');
+                            this.$root.viewNotify('success', 'Успешно', 'Информация обновлена');
                             this.$router.push('/page/locations')
                         })
                         .catch((error) => {
-                            this.$root.viewNotify('error','Ошибка', error);
+                            this.$root.viewNotify('error', 'Ошибка', error);
                         })
                 } else {
                     // if (!this.valid.username) {
@@ -348,8 +341,7 @@
                 }
             }
         },
-        watch: {
-        }
+        watch: {}
 
     }
 </script>
@@ -358,6 +350,7 @@
     #map, .vue-google-map {
         height: 500px;
     }
+
     .map-view {
         width: 100%;
         height: 500px;
@@ -365,6 +358,7 @@
         overflow: hidden;
         border-radius: 5px;
     }
+
     .nav-locations {
         margin-bottom: 10px;
     }

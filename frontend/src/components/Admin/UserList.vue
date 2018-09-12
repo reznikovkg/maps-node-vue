@@ -19,7 +19,7 @@
 
     export default {
         name: "UserList",
-        data () {
+        data() {
             return {
                 tableStruct: [
                     {
@@ -46,12 +46,12 @@
                                     },
                                     on: {
                                         change: () => {
-                                            axios.get(`${this.$root.domain}/api/admin/activate`,{
+                                            axios.get(`${this.$root.domain}/api/admin/activate`, {
                                                 params: {
                                                     token: this.$root.user.token,
                                                     username: params.item.username
                                                 }
-                                            }).then((response)=>{
+                                            }).then((response) => {
 
                                                 // var usersList = this.users;
                                                 // usersList.forEach((item, i, userList) => {
@@ -61,7 +61,7 @@
                                                 //     }
                                                 // });
 
-                                                this.$root.viewNotify('success','Успешно', `Статус ${params.item.username} изменен.`);
+                                                this.$root.viewNotify('success', 'Успешно', `Статус ${params.item.username} изменен.`);
                                                 this.reUpdate();
                                             });
                                         }
@@ -82,13 +82,13 @@
                                     },
                                     on: {
                                         change: () => {
-                                            axios.get(`${this.$root.domain}/api/admin/activateAdmin`,{
+                                            axios.get(`${this.$root.domain}/api/admin/activateAdmin`, {
                                                 params: {
                                                     token: this.$root.user.token,
                                                     username: params.item.username
                                                 }
-                                            }).then((response)=>{
-                                                this.$root.viewNotify('success','Успешно', `Права ${params.item.username} изменены.`);
+                                            }).then((response) => {
+                                                this.$root.viewNotify('success', 'Успешно', `Права ${params.item.username} изменены.`);
                                             });
                                         }
                                     }
@@ -107,7 +107,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.$router.push({ name: 'user-edit', params: { userId: params.item.id }})
+                                            this.$router.push({name: 'user-edit', params: {userId: params.item.id}})
                                         }
                                     }
                                 }, 'Редактировать')
@@ -124,7 +124,7 @@
         },
         methods: {
             usersUpdate: function () {
-                axios.get(`${this.$root.domain}/api/admin/get/users`,{
+                axios.get(`${this.$root.domain}/api/admin/get/users`, {
                     params: {
                         token: this.$root.user.token
                     }
@@ -135,13 +135,13 @@
                         var usersList = this.users;
                         usersList.forEach((item, i, userList) => {
                             if (item.username == this.$root.user.username) {
-                                this.users.splice( this.users.indexOf(item), 1 );
+                                this.users.splice(this.users.indexOf(item), 1);
                             }
                         });
 
                     })
                     .catch((error) => {
-                        this.$root.viewNotify('error','Ошибка', error.response.data.error);
+                        this.$root.viewNotify('error', 'Ошибка', error.response.data.error);
                     })
             },
             reUpdate: function () {

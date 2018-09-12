@@ -17,11 +17,13 @@
                     <at-menu-item
                             :router="true"
                             :to="{name : 'user-list'}">
-                        <i class="icon icon-list"></i>Список пользователей</at-menu-item>
+                        <i class="icon icon-list"></i>Список пользователей
+                    </at-menu-item>
                     <at-menu-item
                             :router="true"
                             :to="{name : 'admin-locations'}">
-                        <i class="icon icon-map-pin"></i>Локации</at-menu-item>
+                        <i class="icon icon-map-pin"></i>Локации
+                    </at-menu-item>
                 </at-submenu>
 
                 <at-submenu>
@@ -29,11 +31,13 @@
                     <at-menu-item
                             :router="true"
                             :to="{name : 'maps-map'}">
-                        <i class="icon icon-map-pin"></i>Карта</at-menu-item>
+                        <i class="icon icon-map-pin"></i>Карта
+                    </at-menu-item>
                     <at-menu-item
                             :router="true"
                             :to="{name : 'maps-locations'}">
-                        <i class="icon icon-map-pin"></i>Моя локация</at-menu-item>
+                        <i class="icon icon-map-pin"></i>Моя локация
+                    </at-menu-item>
                 </at-submenu>
 
 
@@ -42,11 +46,13 @@
                     <at-menu-item
                             :router="true"
                             :to="{name : 'edit-profile'}">
-                        <i class="icon icon-edit-1"></i>Редактировать профиль</at-menu-item>
+                        <i class="icon icon-edit-1"></i>Редактировать профиль
+                    </at-menu-item>
                     <at-menu-item
                             :router="true"
                             :to="{name : 'edit-password'}">
-                        <i class="icon icon-refresh-cw"></i>Сменить пароль</at-menu-item>
+                        <i class="icon icon-refresh-cw"></i>Сменить пароль
+                    </at-menu-item>
                 </at-submenu>
 
                 <at-menu-item>
@@ -61,9 +67,8 @@
 <script>
     export default {
         name: "page-aside",
-        data () {
-          return {
-          }
+        data() {
+            return {}
         },
         methods: {
             outLogin: function () {

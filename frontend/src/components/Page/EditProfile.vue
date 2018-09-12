@@ -27,7 +27,8 @@
                 <div class="form-control">
                     <at-button
                             :type="status.button"
-                            @click="sendForm">Сохранить</at-button>
+                            @click="sendForm">Сохранить
+                    </at-button>
                 </div>
 
             </form>
@@ -45,7 +46,7 @@
         components: {
             Datepicker
         },
-        data () {
+        data() {
             return {
                 ru: ru,
                 form: {
@@ -90,11 +91,11 @@
                         }
                     })
                         .then((response) => {
-                            this.$root.viewNotify('success','Успешно', 'Информация обновлена');
+                            this.$root.viewNotify('success', 'Успешно', 'Информация обновлена');
                             this.$root.authenticated();
                         })
                         .catch((error) => {
-                            this.$root.viewNotify('error','Ошибка', error);
+                            this.$root.viewNotify('error', 'Ошибка', error);
                         })
                 } else {
                     if (!this.valid.username) {
@@ -106,13 +107,13 @@
 
                     this.status.button = 'error';
 
-                    this.$root.viewNotify('error','Ошибка', 'Поля должны быть заполнены');
+                    this.$root.viewNotify('error', 'Ошибка', 'Поля должны быть заполнены');
                 }
             }
         },
         watch: {
-            'form.username':function () {
-                if ((this.form.username.length > 0) && ( /^[a-zA-Z0-9]+$/.test(this.form.username))) {
+            'form.username': function () {
+                if ((this.form.username.length > 0) && (/^[a-zA-Z0-9]+$/.test(this.form.username))) {
                     axios.get(`${this.$root.domain}/api/auth/uniqueUsername`, {
                         params: {
                             username: this.form.username,
@@ -136,8 +137,10 @@
                     this.status.username = 'error';
                 }
             },
-            '$root.user' : {
-                handler: function (val, oldVal) { this.setForm() },
+            '$root.user': {
+                handler: function (val, oldVal) {
+                    this.setForm()
+                },
                 deep: true
             }
         },

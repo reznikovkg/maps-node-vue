@@ -15,7 +15,7 @@
 
     export default {
         name: "Map",
-        data () {
+        data() {
             return {
                 map: null,
                 markers: null,
@@ -30,9 +30,7 @@
         mounted: function () {
             // this.initMap();
         },
-        methods: {
-
-        }
+        methods: {}
 
     }
 </script>

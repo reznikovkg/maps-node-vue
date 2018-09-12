@@ -33,7 +33,8 @@
                         :type="status.button"
                         @click="sendForm"
                         size="small"
-                >Зарегистрировать</at-button>
+                >Зарегистрировать
+                </at-button>
             </div>
         </form>
     </div>
@@ -44,7 +45,7 @@
 
     export default {
         name: "auth-register",
-        data () {
+        data() {
             return {
                 form: {
                     username: '',
@@ -82,11 +83,11 @@
                         }
                     })
                         .then((response) => {
-                            this.$root.viewNotify('success','Успешно', 'Пользователь с именем ' + this.form.username + ' зарегистрирован.');
+                            this.$root.viewNotify('success', 'Успешно', 'Пользователь с именем ' + this.form.username + ' зарегистрирован.');
                             this.$router.push('/login');
                         })
                         .catch((error) => {
-                            this.$root.viewNotify('error','Ошибка', error);
+                            this.$root.viewNotify('error', 'Ошибка', error);
                         })
                 } else {
                     if (!this.valid.username) {
@@ -104,13 +105,13 @@
 
                     this.status.button = 'error';
 
-                    this.$root.viewNotify('error','Ошибка', 'Поля должны быть заполнены');
+                    this.$root.viewNotify('error', 'Ошибка', 'Поля должны быть заполнены');
                 }
             }
         },
         watch: {
-            'form.username':function () {
-                if ((this.form.username.length > 0) && ( /^[a-zA-Z0-9]+$/.test(this.form.username))) {
+            'form.username': function () {
+                if ((this.form.username.length > 0) && (/^[a-zA-Z0-9]+$/.test(this.form.username))) {
                     axios.get(`${this.$root.domain}/api/auth/uniqueUsername`, {
                         params: {
                             username: this.form.username,
@@ -129,8 +130,8 @@
                     this.status.username = 'error';
                 }
             },
-            'form.email':function () {
-                if ((this.form.email.length > 0) && ( /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(this.form.email))) {
+            'form.email': function () {
+                if ((this.form.email.length > 0) && (/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(this.form.email))) {
                     this.valid.email = true;
                     this.status.email = 'success';
                 } else {
@@ -138,8 +139,8 @@
                     this.status.email = 'error';
                 }
             },
-            'form.password':function () {
-                if ((this.form.password.length >= 1)  && ( /^[a-zA-Z0-9*#!+]+$/.test(this.form.password))){
+            'form.password': function () {
+                if ((this.form.password.length >= 1) && (/^[a-zA-Z0-9*#!+]+$/.test(this.form.password))) {
                     this.valid.password = true;
                     this.status.password = 'success';
                 } else {
@@ -147,8 +148,8 @@
                     this.status.password = 'error';
                 }
             },
-            'form.password2':function () {
-                if ((this.form.password2.length >= 1)  && ( this.form.password === this.form.password2)){
+            'form.password2': function () {
+                if ((this.form.password2.length >= 1) && (this.form.password === this.form.password2)) {
                     this.valid.password2 = true;
                     this.status.password2 = 'success';
                 } else {

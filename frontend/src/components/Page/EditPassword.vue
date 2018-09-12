@@ -38,7 +38,7 @@
 
     export default {
         name: "EditProfile",
-        data () {
+        data() {
             return {
                 form: {
                     password: '',
@@ -66,21 +66,21 @@
                         }
                     })
                         .then((response) => {
-                            this.$root.viewNotify('success','Успешно', 'Информация обновлена');
+                            this.$root.viewNotify('success', 'Успешно', 'Информация обновлена');
                             this.$root.authenticated();
                         })
                         .catch((error) => {
-                            this.$root.viewNotify('error','Ошибка', 'Поля должны быть заполнены и совпадать');
+                            this.$root.viewNotify('error', 'Ошибка', 'Поля должны быть заполнены и совпадать');
                         })
                 } else {
-                    this.$root.viewNotify('error','Ошибка', 'Поля должны быть заполнены и совпадать');
+                    this.$root.viewNotify('error', 'Ошибка', 'Поля должны быть заполнены и совпадать');
                 }
 
             }
         },
         watch: {
-            'form.password':function () {
-                if ((this.form.password.length >= 1)  && ( /^[a-zA-Z0-9*#!+]+$/.test(this.form.password))){
+            'form.password': function () {
+                if ((this.form.password.length >= 1) && (/^[a-zA-Z0-9*#!+]+$/.test(this.form.password))) {
                     this.valid.password = true;
                     this.status.password = 'success';
                 } else {
@@ -88,8 +88,8 @@
                     this.status.password = 'error';
                 }
             },
-            'form.password2':function () {
-                if ((this.form.password2) === (this.form.password)){
+            'form.password2': function () {
+                if ((this.form.password2) === (this.form.password)) {
                     this.valid.password2 = true;
                     this.status.password2 = 'success';
                 } else {

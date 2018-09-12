@@ -21,7 +21,8 @@
                         :type="status.button"
                         @click="sendForm"
                         size="small"
-                        >Войти</at-button>
+                >Войти
+                </at-button>
             </div>
         </form>
     </div>
@@ -32,7 +33,7 @@
 
     export default {
         name: "auth-login",
-        data () {
+        data() {
             return {
                 form: {
                     username: '',
@@ -56,7 +57,7 @@
             sendForm: function () {
                 if ((this.valid.username) && (this.valid.password)) {
 
-                    axios.get(`${this.$root.domain}/api/auth/login`,{
+                    axios.get(`${this.$root.domain}/api/auth/login`, {
                         params: {
                             username: this.form.username,
                             password: this.form.password
@@ -66,7 +67,7 @@
                             this.$root.user.token = response.data.token;
                         })
                         .catch((error) => {
-                            this.$root.viewNotify('error','Ошибка', error.response.data.error);
+                            this.$root.viewNotify('error', 'Ошибка', error.response.data.error);
                         })
 
                 } else {
@@ -79,13 +80,13 @@
 
                     this.status.button = 'error';
 
-                    this.$root.viewNotify('error','Ошибка', 'Поля должны быть заполнены');
+                    this.$root.viewNotify('error', 'Ошибка', 'Поля должны быть заполнены');
                 }
             }
         },
         watch: {
-            'form.username':function () {
-                if ((this.form.username.length > 0) && ( /^[a-zA-Z0-9]+$/.test(this.form.username))) {
+            'form.username': function () {
+                if ((this.form.username.length > 0) && (/^[a-zA-Z0-9]+$/.test(this.form.username))) {
                     this.valid.username = true;
                     this.status.username = 'success';
                 } else {
@@ -94,8 +95,8 @@
                 }
             },
 
-            'form.password':function () {
-                if ((this.form.password.length >= 1)  && ( /^[a-zA-Z0-9*#!+]+$/.test(this.form.password))){
+            'form.password': function () {
+                if ((this.form.password.length >= 1) && (/^[a-zA-Z0-9*#!+]+$/.test(this.form.password))) {
                     this.valid.password = true;
                     this.status.password = 'success';
                 } else {

@@ -28,7 +28,8 @@
                 <div class="form-control">
                     <at-button :type="form.status"
                                @click="sendForm"
-                    >Сохранить</at-button>
+                    >Сохранить
+                    </at-button>
                 </div>
 
             </form>
@@ -46,7 +47,7 @@
         components: {
             Datepicker
         },
-        data () {
+        data() {
             return {
                 ru: ru,
                 form: {
@@ -84,7 +85,7 @@
 
                 })
                 .catch((error) => {
-                    this.$root.viewNotify('error','Ошибка', error);
+                    this.$root.viewNotify('error', 'Ошибка', error);
                 })
         },
         methods: {
@@ -112,10 +113,10 @@
                         }
                     })
                         .then((response) => {
-                            this.$root.viewNotify('success','Успешно', 'Информация обновлена');
+                            this.$root.viewNotify('success', 'Успешно', 'Информация обновлена');
                         })
                         .catch((error) => {
-                            this.$root.viewNotify('error','Ошибка', error);
+                            this.$root.viewNotify('error', 'Ошибка', error);
                         })
                 } else {
                     if (!this.valid.username) {
@@ -127,13 +128,13 @@
 
                     this.status.button = 'error';
 
-                    this.$root.viewNotify('error','Ошибка', 'Поля должны быть заполнены');
+                    this.$root.viewNotify('error', 'Ошибка', 'Поля должны быть заполнены');
                 }
             },
         },
         watch: {
-            'form.username':function () {
-                if ((this.form.username.length > 0) && ( /^[a-zA-Z0-9]+$/.test(this.form.username))) {
+            'form.username': function () {
+                if ((this.form.username.length > 0) && (/^[a-zA-Z0-9]+$/.test(this.form.username))) {
                     axios.get(`${this.$root.domain}/api/auth/uniqueUsername`, {
                         params: {
                             username: this.form.username,
