@@ -18,7 +18,7 @@
             <GmapMarker
                     v-for="(locationUser, index) in locationUsers"
                     :key="locationUser.user"
-                    :label="'User'"
+                    :label="'User id: ' + locationUser.user.toString()"
                     :position="{ lat: locationUser.lat, lng: locationUser.lng}"
                     :clickable="true"/>
 
@@ -173,11 +173,14 @@
 
                                             var inCircle = false;
 
+                                            var idUsers = [];
+
                                             loc.forEach((item, i, loc) => {
                                                 var point = new google.maps.LatLng(item.lat, item.lng);
                                                 var distance = google.maps.geometry.spherical.computeDistanceBetween(point, cir);
                                                 if (distance < rad) {
                                                     inCircle = true;
+                                                    idUsers.push(item.user);
                                                 }
                                             });
 
@@ -186,7 +189,7 @@
                                                     title: 'Внимание!',
                                                     content: 'Вы хотите удалить локацию с пользователями. Продолжить удаление?'
                                                 }).then(() => {
-                                                    this.okRemoveLocation(params.item);
+                                                    this.okRemoveLocation(params.item, idUsers);
                                                 }).catch(() => {
                                                     this.$Message('Вы отменили удаление')
                                                 });
@@ -223,11 +226,12 @@
                         };
                     });
             },
-            okRemoveLocation: function (item) {
+            okRemoveLocation: function (item, _idUsers = null) {
                 axios.get(`${this.$root.domain}/api/admin/removeLocationCircle`, {
                     params: {
                         token: this.$root.user.token,
-                        id: item.id
+                        id: item.id,
+                        idUsers: _idUsers
                     }
                 }).then((response) => {
                     this.$root.viewNotify('success', 'Успешно', `Вы удалили локацию`);

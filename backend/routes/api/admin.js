@@ -157,12 +157,25 @@ app.get('/sendLocationCircle', function (req, res, next) {
 
 app.get('/removeLocationCircle', function (req, res, next) {
     const id = req.param('id');
+    const idUsers = req.param('idUsers');
 
     models.LocationCircles.destroy({
         where: {
             id: id
         }
     }).then(() => {
+
+        idUsers.forEach((item, i, idUsers)=>{
+            const user = models.Notifys.build({
+                user: item,
+                head: 'Ваша локация удалена',
+                type: 'warning',
+                text: 'Срочно смените своё местоположение'
+            });
+
+            user.save();
+        });
+
         res.status(status.OK.CODE).send({message: status.OK.MESSAGE});
     });
 
