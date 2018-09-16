@@ -24,5 +24,7 @@
       "CODE": "500",
       "MESSAGE": "Ошибка сервера"
     }
-  }
+  },
+  "domainClient": "http://localhost:8080",
+  "domainServer": "http://localhost:8888"
 }

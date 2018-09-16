@@ -6,6 +6,7 @@ var logger = require('morgan');
 var session = require('express-session');
 const cors = require('cors');
 
+
 var indexRouter = require('./routes/index');
 var apiAuthRoute = require('./routes/api/auth');
 var apiAdminRoute = require('./routes/api/admin');
@@ -13,6 +14,8 @@ var apiUserRoute = require('./routes/api/user');
 var apiMapsRoute = require('./routes/api/maps');
 
 var app = express();
+
+
 
 app.use(session({
     secret: 'keyboard cat',

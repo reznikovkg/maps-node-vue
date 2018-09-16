@@ -34,6 +34,18 @@
                     @radius_changed="updateCircle('radius', $event)"
                     @bounds_changed="updateCircle('bounds', $event)"></gmap-circle>
 
+            <!--локации прямоуг-->
+            <gmap-rectangle
+                    v-for="(locRectangle, index) in locationRectangle"
+                    :bounds="{
+                        south: locRectangle.south,
+                        north: locRectangle.north,
+                        west: locRectangle.west,
+                        east: locRectangle.east
+                    }"></gmap-rectangle>
+
+
+
 
             <!--новый маркер-->
             <GmapMarker
@@ -55,13 +67,22 @@
 
                     :options="{editable: true}"
             ></gmap-circle>
+
+            <!--новая локация прямоуг-->
+            <gmap-rectangle
+                    v-if="addLocationRectangleFormActive"
+                    :bounds="addLocationRectangleForm.bounds"
+                    ref="gmaprectangle"
+                    :options="{editable: true}"
+            ></gmap-rectangle>
+
         </GmapMap>
 
 
         <div class="nav-locations">
             <at-button @click="addMarkerAction" size="small" icon="icon-plus" type="primary">Добавить маркер</at-button>
-            <at-button @click="addLocationAction" size="small" icon="icon-plus" type="primary">Добавить локацию
-            </at-button>
+            <at-button @click="addLocationAction" size="small" icon="icon-plus" type="primary">Добавить локацию (круг)</at-button>
+            <at-button @click="addLocationRectangleAction" size="small" icon="icon-plus" type="primary">Добавить локацию (прямоугольник)</at-button>
         </div>
 
         <div class="form-add-location" :class="{ active: addMarkerFormActive }">
@@ -82,7 +103,7 @@
         <div class="form-add-location" :class="{ active: addLocationFormActive }">
             <form action="">
                 <div class="form-control">
-                    <at-input v-model="addLocationForm.name" placeholder="Название локации"></at-input>
+                    <at-input v-model="addLocationForm.name" placeholder="Название локации (круг)"></at-input>
                 </div>
                 <div class="form-control">
                     <at-input v-model="addLocationForm.latLngRad" placeholder="Координаты (указать на карте)"
@@ -94,9 +115,33 @@
         </div>
 
 
+        <div class="form-add-location" :class="{ active: addLocationRectangleFormActive }">
+            <form action="">
+                <div class="form-control">
+                    <at-input v-model="addLocationRectangleForm.name" placeholder="Название локации (прямоугольник)"></at-input>
+                </div>
+                <div class="form-control">
+                    <at-input v-model="addLocationRectangleForm.tbrl" placeholder="Координаты (указать на карте)"
+                              disabled></at-input>
+                </div>
+
+            </form>
+            <at-button @click="sendFormLocationRectangle" size="small" icon="icon-save" type="primary">Сохранить</at-button>
+        </div>
+
+
+        <h3>Локации (круг)</h3>
         <at-table
                 :columns="tableStruct"
                 :data="locationCircle"
+                size="small"
+                sort
+        ></at-table>
+
+        <h3>Локации (прямоугольник)</h3>
+        <at-table
+                :columns="tableStructRec"
+                :data="locationRectangle"
                 size="small"
                 sort
         ></at-table>
@@ -118,13 +163,16 @@
                 map: null,
                 markers: [],
                 locationCircle: [],
+                locationRectangle: [],
                 locationUsers: [],
                 circleBounds: {},
+                rectangleBounds: {},
                 center: {lat: -34.397, lng: 150.644},
                 zoom: 2,
 
                 addMarkerFormActive: false,
                 addLocationFormActive: false,
+                addLocationRectangleFormActive: false,
                 addMarker: {
                     lat: 0,
                     lng: 0
@@ -147,6 +195,14 @@
                     radius: 10000
                 },
 
+                addLocationRectangleForm: {
+                    name: '',
+
+                    tbrl: '',
+
+                    bounds: null
+                },
+
 
                 tableStruct: [
                     {
@@ -156,7 +212,6 @@
                     },
                     {
                         title: 'Настройки',
-                        key: 'isActive',
                         render: (h, params) => {
                             return h('div', [
                                 h('at-button', {
@@ -203,6 +258,58 @@
                         }
                     },
                 ],
+                tableStructRec: [
+                    {
+                        title: 'Название локации',
+                        key: 'name',
+                        sortType: 'normal'
+                    },
+                    {
+                        title: 'Настройки',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('at-button', {
+                                    props: {
+                                        size: 'small',
+                                    },
+                                    on: {
+                                        click: () => {
+                                            var loc = this.locationUsers;
+
+                                            var rec = params.item;
+                                            var inRec = false;
+
+                                            var idUsers = [];
+
+                                            loc.forEach((item, i, loc) => {
+
+                                                if (
+                                                    (item.lat < rec.north) && (item.lat > rec.south) && (item.lng > rec.west) && (item.lng < rec.east)
+                                                ) {
+                                                    inRec = true;
+                                                    idUsers.push(item.user);
+                                                }
+                                            });
+
+                                            if (inRec) {
+                                                this.$Modal.confirm({
+                                                    title: 'Внимание!',
+                                                    content: 'Вы хотите удалить локацию с пользователями. Продолжить удаление?'
+                                                }).then(() => {
+                                                    this.okRemoveLocationRectangle(params.item, idUsers);
+                                                }).catch(() => {
+                                                    this.$Message('Вы отменили удаление')
+                                                });
+                                            } else {
+                                                this.okRemoveLocationRectangle(params.item);
+                                            }
+                                        }
+                                    }
+                                }, 'Удалить')
+                            ])
+                        }
+                    },
+                ],
                 lat: null,
                 lng: null,
             }
@@ -213,6 +320,7 @@
         mounted: function () {
             this.getMarkers();
             this.getLocationCircle();
+            this.getLocationRectangle();
             this.getLocationUsers();
         },
         methods: {
@@ -242,10 +350,31 @@
                 });
             },
 
+            okRemoveLocationRectangle: function (item, _idUsers = null) {
+                axios.get(`${this.$root.domain}/api/admin/removeLocationRectangle`, {
+                    params: {
+                        token: this.$root.user.token,
+                        id: item.id,
+                        idUsers: _idUsers
+                    }
+                }).then((response) => {
+                    this.$root.viewNotify('success', 'Успешно', `Вы удалили локацию`);
+
+                    this.locationRectangle.splice(
+                        this.locationRectangle.indexOf(item),
+                        1);
+                });
+            },
             getLocationCircle: function () {
                 axios.get(`${this.$root.domain}/api/maps/allLocationCircle`)
                     .then((response) => {
                         this.locationCircle = response.data.locationCircle;
+                    });
+            },
+            getLocationRectangle: function () {
+                axios.get(`${this.$root.domain}/api/maps/allLocationRectangle`)
+                    .then((response) => {
+                        this.locationRectangle = response.data.locationRectangle;
                     });
             },
             getLocationUsers: function () {
@@ -257,10 +386,17 @@
             addMarkerAction: function () {
                 this.addMarkerFormActive = !this.addMarkerFormActive;
                 this.addLocationFormActive = false;
+                this.addLocationRectangleFormActive = false;
             },
             addLocationAction: function () {
                 this.addLocationFormActive = !this.addLocationFormActive;
                 this.addMarkerFormActive = false;
+                this.addLocationRectangleFormActive = false;
+            },
+            addLocationRectangleAction: function () {
+                this.addLocationRectangleFormActive = !this.addLocationRectangleFormActive;
+                this.addMarkerFormActive = false;
+                this.addLocationFormActive = false;
             },
             choiseLocation: function (e) {
                 if (this.addMarkerFormActive) {
@@ -281,6 +417,18 @@
 
 
                     this.addLocationForm.latLngRad = `Локация обозначена`;
+                }
+
+                if (this.addLocationRectangleFormActive) {
+                    var _bounds = {
+                        south: e.latLng.lat()-2,
+                        north: e.latLng.lat()+2,
+
+                        west: e.latLng.lng()-5,
+                        east: e.latLng.lng()+5
+                    };
+                    this.addLocationRectangleForm.bounds = _bounds;
+                    this.addLocationRectangleForm.tbrl = `Локация обозначена`;
                 }
 
             },
@@ -331,6 +479,43 @@
                         .catch((error) => {
                             this.$root.viewNotify('error', 'Ошибка', error);
                         })
+                } else {
+                    // if (!this.valid.username) {
+                    //     this.status.username = 'error';
+                    // }
+                    // if (!this.valid.birthday) {
+                    //     this.status.birthday = 'error';
+                    // }
+                    //
+                    // this.status.button = 'error';
+                    //
+                    // this.$root.viewNotify('error','Ошибка', 'Поля должны быть заполнены');
+                }
+            },
+            sendFormLocationRectangle: function () {
+                console.log(this.$refs.gmaprectangle);
+                if ((this.addLocationRectangleForm.name) && (this.addLocationRectangleForm.bounds)) {
+                    axios.get(`${this.$root.domain}/api/admin/sendLocationRectangle`, {
+                        params: {
+                            token: this.$root.user.token,
+                            name: this.addLocationRectangleForm.name,
+
+
+                            south: this.$refs.gmaprectangle.$rectangleObject.bounds.f.b,
+                            north: this.$refs.gmaprectangle.$rectangleObject.bounds.f.f,
+
+                            west: this.$refs.gmaprectangle.$rectangleObject.bounds.b.b,
+                            east: this.$refs.gmaprectangle.$rectangleObject.bounds.b.f,
+                        }
+                    })
+                        .then((response) => {
+                            this.$root.viewNotify('success', 'Успешно', 'Информация обновлена');
+                            this.$router.push('/page/locations')
+                        })
+                        .catch((error) => {
+                            this.$root.viewNotify('error', 'Ошибка', error);
+                        })
+
                 } else {
                     // if (!this.valid.username) {
                     //     this.status.username = 'error';

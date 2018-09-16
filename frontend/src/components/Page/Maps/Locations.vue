@@ -16,6 +16,18 @@
                     @radius_changed="updateCircle('radius', $event)"
                     @bounds_changed="updateCircle('bounds', $event)"></gmap-circle>
 
+            <!--локации прямоуг-->
+            <gmap-rectangle
+                    @click="mapClick"
+                    v-for="(locRectangle, index) in locationRectangle"
+                    :bounds="{
+                        south: locRectangle.south,
+                        north: locRectangle.north,
+                        west: locRectangle.west,
+                        east: locRectangle.east
+                    }"></gmap-rectangle>
+
+
             <GmapMarker
                     v-if="choiseCoordMark"
                     :position="{ lat: addMarker.lat, lng: addMarker.lng}"/>
@@ -69,6 +81,7 @@
                 zoom: 2,
 
                 locationCircle: {},
+                locationRectangle: {},
                 choiseCoordMark: false,
                 addMarker: {
                     lat: '',
@@ -96,6 +109,7 @@
         },
         mounted: function () {
             this.getLocationCircle();
+            this.getLocationRectangle();
             this.getLocationUser();
         },
         methods: {
@@ -110,6 +124,12 @@
                                 lng: this.locationCircle[0].lng,
                             }
                         }
+                    });
+            },
+            getLocationRectangle: function () {
+                axios.get(`${this.$root.domain}/api/maps/allLocationRectangle`)
+                    .then((response) => {
+                        this.locationRectangle = response.data.locationRectangle;
                     });
             },
             getLocationUser: function () {
@@ -208,6 +228,22 @@
                         this.valid.place = true;
                     }
                 });
+
+                if (!this.valid.place) {
+                    var recs = this.locationRectangle;
+
+                    recs.forEach((item, i, recs) => {
+
+                        if (
+                            (this.addMarker.lat < item.north) &&
+                            (this.addMarker.lat > item.south) &&
+                            (this.addMarker.lng > item.west) &&
+                            (this.addMarker.lng < item.east)
+                        ) {
+                            this.valid.place = true;
+                        }
+                    });
+                }
             }
         }
     }

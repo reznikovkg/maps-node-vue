@@ -1,5 +1,6 @@
 var express = require('express');
 var session = require('express-session');
+var transporter = require('../../service/mailer');
 var app = express();
 
 var models = require('../../models');
@@ -168,6 +169,56 @@ app.get('/removeLocationCircle', function (req, res, next) {
     const idUsers = req.param('idUsers');
 
     models.LocationCircles.destroy({
+        where: {
+            id: id
+        }
+    }).then(() => {
+        if (idUsers) {
+            idUsers.forEach((item, i, idUsers)=>{
+                const user = models.Notifys.build({
+                    user: item,
+                    head: 'Ваша локация удалена',
+                    type: 'warning',
+                    text: 'Срочно смените своё местоположение'
+                });
+
+                user.save();
+            });
+        }
+        res.status(status.OK.CODE).send({message: status.OK.MESSAGE});
+    });
+
+});
+
+
+app.get('/sendLocationRectangle', function (req, res, next) {
+    const name = req.param('name');
+
+    const south = req.param('south');
+    const north = req.param('north');
+    const west = req.param('west');
+    const east = req.param('east');
+
+
+    const LocationRectangle = models.LocationRectangles.build({
+        name: name,
+        south: south,
+        north: north,
+        west: west,
+        east:east
+    });
+
+    LocationRectangle.save().then(() => {
+        res.status(status.OK.CODE).send({message: status.OK.MESSAGE});
+    });
+});
+
+
+app.get('/removeLocationRectangle', function (req, res, next) {
+    const id = req.param('id');
+    const idUsers = req.param('idUsers');
+
+    models.LocationRectangles.destroy({
         where: {
             id: id
         }

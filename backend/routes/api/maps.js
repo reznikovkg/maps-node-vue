@@ -28,6 +28,17 @@ app.get('/allLocationCircle', function (req, res, next) {
         });
 });
 
+app.get('/allLocationRectangle', function (req, res, next) {
+
+    models.LocationRectangles.findAll()
+        .then(LocationRectangle => {
+            res.status(status.OK.CODE).send({'locationRectangle': LocationRectangle});
+        })
+        .catch((error) => {
+            res.status(status.NOT_FOUND.CODE).send({'message': error});
+        });
+});
+
 app.get('/setLocationPoint', function (req, res, next) {
     const token = req.param('token');
     const user = req.param('id');

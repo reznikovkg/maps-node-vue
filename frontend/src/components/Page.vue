@@ -75,6 +75,7 @@
             right: 0;
             bottom: 0;
             padding: 20px;
+            overflow: auto;
 
             & .content {
                 width: 100%;

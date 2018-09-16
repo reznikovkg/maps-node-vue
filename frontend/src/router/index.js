@@ -29,6 +29,7 @@ Vue.use(VueCookie);
 import Auth from '../components/Auth'
 import Login from '../components/Auth/Login'
 import Register from '../components/Auth/Register'
+import Active from '../components/Auth/Active'
 
 import Page from '../components/Page'
 import EditProfile from '../components/Page/EditProfile'
@@ -66,6 +67,14 @@ export default new Router({
                     component: Register,
                     meta: {
                         title: 'Регистрация'
+                    }
+                },
+                {
+                    path: 'active',
+                    name: 'auth-active',
+                    component: Active,
+                    meta: {
+                        title: 'Активировано'
                     }
                 },
             ]
