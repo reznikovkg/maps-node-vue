@@ -18,6 +18,7 @@ After deploying the docker (this lasts a long time). Run the second terminal and
     
 **After open: [http://localhost:8080](http://localhost:8080)**
 
+
 ### Database ###
 
     db_core: mysql
