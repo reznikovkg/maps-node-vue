@@ -15,7 +15,7 @@
     "gmail-send": "^1.2.14",
     "handlebars": "^4.0.12",
     "http-errors": "~1.6.2",
-    "morgan": "~1.9.0",
+    "morgan": "~1.9.1",
     "mysql2": "^1.6.1",
     "nodemailer": "^4.6.8",
     "passport": "^0.4.0",
