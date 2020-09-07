@@ -13,7 +13,7 @@
     "express-mysql-session": "^2.0.1",
     "express-session": "^1.15.6",
     "gmail-send": "^1.2.14",
-    "handlebars": "^4.0.12",
+    "handlebars": "^4.5.3",
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
     "mysql2": "^1.6.1",
